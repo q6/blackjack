@@ -151,7 +151,7 @@ class Play(object):
         :param player: A player object or dealer
         :return: the card given to the player
         """
-        card = player.add_card_to_hand(player, self.deck.pick_random_card())
+        card = player.add_card_to_hand(self.deck.pick_random_card())
         return card
 
 
