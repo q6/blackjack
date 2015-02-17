@@ -119,7 +119,8 @@ class Play(object):
         for card in hand:
             total += card.points
 
-        if total_ace_high
+        if total_ace_high > 21:
+            
 
 
 

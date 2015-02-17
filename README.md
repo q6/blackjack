@@ -2,12 +2,4 @@
 A python implementation of the game blackjack.
 Nothing special.
 #WIP
-.┌─────────┐────┐.
-.│2........│░░░░│.
-.│.........│░░░░│.
-.│.........│░░░░│.
-.│....♠....│░░░░│.
-.│.........│░░░░│.
-.│.........│░░░░│.
-.│........2│░░░░│.
-.└─────────┘────┘.
+![ascii playing cards](http://i.imgur.com/tZKYCeg.png)
