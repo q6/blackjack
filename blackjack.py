@@ -1,3 +1,5 @@
+import antigravity
+
 class Card(object):
 
     card_values = {
@@ -84,6 +86,20 @@ class Player(object):
         for card in self.hand:
             print(str(card))
 
+    def ace_in_hand(self):  # deprecated
+        for card in self.hand:
+            if card.face == 'Ace':
+                return True
+        return False
+
+    def how_many_aces_in_hand(self):
+        total = 0
+        for card in self.hand:
+            if card.face == 'Ace':
+                total += 1
+        return total
+
+
 class Dealer(Player):
 
     def print_hand(self):
@@ -117,10 +133,11 @@ class Play(object):
         # damn aces are making this harder
         total_ace_high = 0  # check when ace is high
         for card in hand:
-            total += card.points
+            total_ace_high += card.points
 
         if total_ace_high > 21:
-            
+            if hand.:
+                pass
 
 
 
