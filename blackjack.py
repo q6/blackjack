@@ -62,6 +62,17 @@ class Deck(object):
         except IndexError:
             return False
 
+    def pick__random_card(self):
+        """
+        :param deck: A Deck object
+        :return: a randomly selected Card object from deck.
+        """
+        from random import randrange
+        card_index = randrange(0, len(self.deck))  # pick a random card
+        card = self.deck[card_index]  # store random card
+        self.deck.remove(card_index)  # remove that card from the deck
+        return card
+
 class Player(object):
 
     def __init__(self):
@@ -135,21 +146,35 @@ class Play(object):
 
         self.turn = 0  # even is dealer, odd is player
 
-    def pick__random_card(self, deck):
+
+
+    def deal_card_to_player(self, player):
         """
-        :param deck: A Deck object
-        :return: a randomly selected Card object from deck.
+        deals the player a random card
+        :param player: A player object or dealer
+        :return: the card given to the player
         """
-        from random import randrange
-        card_index = randrange(0, len(deck))  # pick a random card
-        card = deck[card_index]  # store random card
-        deck.remove(card_index)  # remove that card from the deck
+        card = player.add_card_to_hand(player, self.deck.pick__random_card())
         return card
 
-    dealer_points = 0
-    player_points = 0
-    while player_points <= 21 or dealer_points <= 21:  # while nobody has over 21 points, keep playing
+
+    def turn(self, player):
+        """
+        Completes one turn of the game
+        :param player: A player object
+        :return: nothing
+        """
         
+
+    def play(self):
+        dealer_points = 0
+        player_points = 0
+        while player_points <= 21 or dealer_points <= 21:  # while nobody has over 21 points, keep playing
+
+
+    play()
+
+
 
 
 
