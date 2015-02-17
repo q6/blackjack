@@ -63,6 +63,18 @@ class Player(object):
     def clear_hand(self):
         self.hand = []
 
+    def print_hand(self):
+        for card in self.hand:
+            print(str(card))
+
+class Dealer(Player):
+
+    def print_hand(self):
+        print('DEALER HIDES 1ST CARD')
+            for card in self.hand[1:]:
+                print(str(card))
+
+
 class Play(object):
 
 
@@ -84,7 +96,7 @@ class Play(object):
         deck.remove(card_index)  # remove that card from the deck
         return card
 
-    
+    def check_cards_value:
 
 
 
