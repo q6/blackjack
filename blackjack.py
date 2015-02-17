@@ -1,21 +1,38 @@
 class Card(object):
 
-    def __init__(self, suit, value):
+    card_values = {
+        'ace': 11,
+        '2': 2,
+        '3': 3,
+        '4': 4,
+        '5': 5,
+        '6': 6,
+        '7': 7,
+        '8': 8,
+        '9': 9,
+        '10': 10,
+        'jack': 10,
+        'queen': 10,
+        'king': 10
+    }
+
+    def __init__(self, suit, face):
         """
         :param suit: The face of the card, e.g. Spade or Diamond
-        :param value: The value of the card, e.g 3 or King
+        :param face: The value of the card, e.g 3 or King
         """
         self.suit = suit.capitalize()
-        self.value = value
+        self.face = face
+        self.points = self.card_values[face]
 
     def __str__(self):
-        return '{} of {}'.format(self.value, self.suit)
+        return '{} of {}'.format(self.face, self.suit)
 
 
 class Deck(object):
 
     suits = ['Spades', 'Diamonds', 'Heart', 'Clubs']
-    values = [2, 3, 4, 5, 6, 7, 8, 9, 10, 'Jack', 'Queen', 'King', 'Ace']
+    values = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'Jack', 'Queen', 'King', 'Ace']
 
     def __init__(self):
         """
@@ -71,8 +88,8 @@ class Dealer(Player):
 
     def print_hand(self):
         print('DEALER HIDES 1ST CARD')
-            for card in self.hand[1:]:
-                print(str(card))
+        for card in self.hand[1:]:
+            print(str(card))
 
 
 class Play(object):
@@ -96,7 +113,16 @@ class Play(object):
         deck.remove(card_index)  # remove that card from the deck
         return card
 
-    def check_cards_value:
+    def check_hand_value(self, hand):
+        # damn aces are making this harder
+        total_ace_high = 0  # check when ace is high
+        for card in hand:
+            total += card.points
+
+        if total_ace_high
+
+
+
 
 
 
