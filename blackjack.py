@@ -1,9 +1,7 @@
-import antigravity
-
 class Card(object):
 
     card_values = {
-        'ace': 11,
+        'Ace': 11,
         '2': 2,
         '3': 3,
         '4': 4,
@@ -13,9 +11,9 @@ class Card(object):
         '8': 8,
         '9': 9,
         '10': 10,
-        'jack': 10,
-        'queen': 10,
-        'king': 10
+        'Jack': 10,
+        'Queen': 10,
+        'King': 10
     }
 
     def __init__(self, suit, rank):
@@ -34,7 +32,7 @@ class Card(object):
 class Deck(object):
 
     suits = ['Spades', 'Diamonds', 'Heart', 'Clubs']
-    values = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'Jack', 'Queen', 'King', 'Ace']
+    ranks = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'Jack', 'Queen', 'King', 'Ace']
 
     def __init__(self):
         """
@@ -42,7 +40,7 @@ class Deck(object):
         """
         self.deck = []
         for suit in self.suits:
-            for value in self.values:
+            for value in self.ranks:
                 self.deck.append(Card(suit, value))
 
     def __str__(self):
@@ -62,15 +60,14 @@ class Deck(object):
         except IndexError:
             return False
 
-    def pick__random_card(self):
+    def pick_random_card(self):
         """
-        :param deck: A Deck object
         :return: a randomly selected Card object from deck.
         """
         from random import randrange
         card_index = randrange(0, len(self.deck))  # pick a random card
         card = self.deck[card_index]  # store random card
-        self.deck.remove(card_index)  # remove that card from the deck
+        self.deck.pop(card_index)  # remove that card from the deck
         return card
 
 class Player(object):
@@ -141,7 +138,7 @@ class Play(object):
 
     def __init__(self):
         self.deck = Deck()
-        self.dealer = Player()
+        self.dealer = Dealer()
         self.player = Player()
 
         self.turn = 0  # even is dealer, odd is player
@@ -154,32 +151,35 @@ class Play(object):
         :param player: A player object or dealer
         :return: the card given to the player
         """
-        card = player.add_card_to_hand(player, self.deck.pick__random_card())
+        card = player.add_card_to_hand(player, self.deck.pick_random_card())
         return card
 
 
-    def turn(self, player):
+    def turn(self, player):  # WIP, might not need/use
         """
-        Completes one turn of the game
+        Completes one turn of the game. # show player the cards, ask what they want to do
         :param player: A player object
         :return: nothing
         """
-        
+        player.print_hand()
+
 
     def play(self):
         dealer_points = 0
         player_points = 0
+
+        # for now kinda hard code the moves AIDS
+        # first deal each player two cards, then show the two card. p -> d -> p -> d
+        self.deal_card_to_player(self.player)  # this function call seems weird, ?player.deal_card_to_player()? better?
+        self.deal_card_to_player(self.dealer)
+        self.deal_card_to_player(self.player)
+        self.deal_card_to_player(self.dealer)
+        self.player.print_hand()
+        self.dealer.print_hand()
+
         while player_points <= 21 or dealer_points <= 21:  # while nobody has over 21 points, keep playing
+            break
 
 
-    play()
-
-
-
-
-
-c = Card('spades', 'king')
-# print(c)
-
-t = Deck()
-print(t)
+p = Play()
+p.play()
