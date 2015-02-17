@@ -18,17 +18,17 @@ class Card(object):
         'king': 10
     }
 
-    def __init__(self, suit, face):
+    def __init__(self, suit, rank):
         """
         :param suit: The face of the card, e.g. Spade or Diamond
-        :param face: The value of the card, e.g 3 or King
+        :param rank: The value of the card, e.g 3 or King
         """
         self.suit = suit.capitalize()
-        self.face = face
-        self.points = self.card_values[face]
+        self.rank = rank
+        self.points = self.card_values[rank]
 
     def __str__(self):
-        return '{} of {}'.format(self.face, self.suit)
+        return '{} of {}'.format(self.rank, self.suit)
 
 
 class Deck(object):
@@ -99,6 +99,29 @@ class Player(object):
                 total += 1
         return total
 
+    def check_hand_value(self):
+        """
+        calculate the points of the current hand
+        :return: True if user can keep playing, False otherwise
+        """
+        # damn aces are making this harder
+        total_ace_high = 0  # check when ace is high
+        for card in self.hand:
+            total_ace_high += card.points
+
+        if total_ace_high > 21:  # user will loose if they do not have an ace up their sleeve ;)
+            num_aces_in_hand = self.how_many_aces_in_hand()
+            if num_aces_in_hand > 0:  # if this is zero they are above 21 with no aces --> losers
+                total_ace_low = total_ace_high  # could just keep using total_ace_low
+                for ace in range(num_aces_in_hand):  # for each ace in their hand we subtract 10 to see if they fall under 21
+                    total_ace_low -= 10  # and aces is either 11 or 1. Subtract 10 to get their hand with a low ace
+                    if total_ace_low < 21:  # If the new score is below 21 they can keep playing
+                        return True
+                return False  # no ace, above 21 :(
+        return True
+
+
+
 
 class Dealer(Player):
 
@@ -128,20 +151,6 @@ class Play(object):
         card = deck[card_index]  # store random card
         deck.remove(card_index)  # remove that card from the deck
         return card
-
-    def check_hand_value(self, hand):
-        # damn aces are making this harder
-        total_ace_high = 0  # check when ace is high
-        for card in hand:
-            total_ace_high += card.points
-
-        if total_ace_high > 21:
-            if hand.:
-                pass
-
-
-
-
 
 
 
