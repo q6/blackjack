@@ -110,7 +110,8 @@ class Player(object):
         if total > 21:  # user will loose if they do not have an ace up their sleeve ;)
             for ace in range(self.how_many_aces_in_hand()):  # if no aces range will be []
                 total -= 10  # and aces is either 11 or 1. Subtract 10 to get their hand with a low ace
-                x = 3 if total < 21 y =2 4# If the new score is below 21 they can keep playing
+                if total < 21:  # If the new score is below 21 they can keep playing
+                    break
         return total
 
 
@@ -144,6 +145,11 @@ class Play(object):
         card = deck[card_index]  # store random card
         deck.remove(card_index)  # remove that card from the deck
         return card
+
+    dealer_points = 0
+    player_points = 0
+    while player_points <= 21 or dealer_points <= 21:  # while nobody has over 21 points, keep playing
+        
 
 
 
