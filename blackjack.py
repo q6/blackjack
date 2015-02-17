@@ -105,20 +105,13 @@ class Player(object):
         :return: True if user can keep playing, False otherwise
         """
         # damn aces are making this harder
-        total_ace_high = 0  # check when ace is high
-        for card in self.hand:
-            total_ace_high += card.points
+        total = sum(card.points for card in self.hand)  # check when ace is high
 
-        if total_ace_high > 21:  # user will loose if they do not have an ace up their sleeve ;)
-            num_aces_in_hand = self.how_many_aces_in_hand()
-            if num_aces_in_hand > 0:  # if this is zero they are above 21 with no aces --> losers
-                total_ace_low = total_ace_high  # could just keep using total_ace_low
-                for ace in range(num_aces_in_hand):  # for each ace in their hand we subtract 10 to see if they fall under 21
-                    total_ace_low -= 10  # and aces is either 11 or 1. Subtract 10 to get their hand with a low ace
-                    if total_ace_low < 21:  # If the new score is below 21 they can keep playing
-                        return True
-                return False  # no ace, above 21 :(
-        return True
+        if total > 21:  # user will loose if they do not have an ace up their sleeve ;)
+            for ace in range(self.how_many_aces_in_hand()):  # if no aces range will be []
+                total -= 10  # and aces is either 11 or 1. Subtract 10 to get their hand with a low ace
+                x = 3 if total < 21 y =2 4# If the new score is below 21 they can keep playing
+        return total
 
 
 
