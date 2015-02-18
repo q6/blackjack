@@ -19,4 +19,4 @@ __TODO:__
  - Simple ASCII art output of cards (see image)
 
 
-_This Game is a __W__ork __I__n __P__rogress_
+_This game is work in progress_
