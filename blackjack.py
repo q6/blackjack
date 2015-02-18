@@ -144,7 +144,6 @@ class Player(object):
         return self.caclulate_hand_points()
 
 
-
 class Dealer(Player):
 
     def print_hand(self):
@@ -165,15 +164,16 @@ class Dealer(Player):
         while True:  # could be infinite loop
             points = self.caclulate_hand_points()
             if points > 21:  # dealer is above 21
+                print('Dealer is busted!')
                 break
             elif points <= 17:  # lower or equal to 18, hit it!
                 self.add_card_to_hand(deck.pick_random_card())
+                print('Dealer Hits')
                 self.print_hand()  # show the user the hand
             else:  # stay
+                print('Dealer Stays')
                 break
         return self.caclulate_hand_points()
-
-
 
 
 class Play(object):
@@ -237,6 +237,24 @@ class Play(object):
         # dd = (self.dealer.did_dealer_win())
         # print(dd)
 
+        # dealer goes first
+        dealer_score = self.dealer.play_turn(self.deck)
+        print(dealer_score)  # DEBUG
+        if dealer_score <= 21:  # dealer is not out of the game
+            # player goes second
+            player_score = self.player.play_turn(self.deck)
+
+        # both parties are done taking cards, let see who won
+        if dealer_score > 21:  # dealer is over
+            winner = 'Player'
+        elif player_score > 21:  # player is over
+            winner = 'Dealer'
+        elif player_score == dealer_score:  # tie, dealer wins
+            winner = 'Dealer'
+        else:  # who is the winner?
+            winner = max((player_score, 'Player'), (dealer_score, 'Dealer'))[1]
+
+        print('The winner is:' + winner)
 
 
 p = Play()

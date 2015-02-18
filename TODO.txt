@@ -1,4 +1,4 @@
-#WRONG
+#MESS
 The way this game works:
 
 1. Get a single new deck
@@ -11,6 +11,13 @@ The way this game works:
 6. Check ot see if the dealer has 21 points -> instant win
 
 7. Ask the player if he wants to hit
+
+6--
+,if dealer has 21 at start -> instant win
+,otherwise he plays (hits, stays, multiple rounds possibly)
+,player plays
+if player is over 21 he loses
+otherwise compare scores
 
 
 
