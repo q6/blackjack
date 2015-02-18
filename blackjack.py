@@ -94,7 +94,7 @@ class Player(object):
     def print_hand(self):
         print('\nPlayers hand:')
         for card in self.hand:
-            print(str(card))
+            print('  ' + str(card))
 
     def ace_in_hand(self):  # deprecated
         for card in self.hand:
@@ -129,6 +129,7 @@ class Player(object):
         Assume that the hand is not larger than 21 points
         returns the points of the hand to compare and see who won
         """
+        print('\nIt is now the PLAYERS turn to hit or stay.')
         self.print_hand()  # show the user their hand 1st
         while True:  # could be infinite loop
             user_choice = input('Player: Would you like to stay or hit? (s to stay h to hit)')
@@ -150,7 +151,7 @@ class Dealer(Player):
         print('\nDealers hand:')
         # print('DEALER HIDES 1ST CARD')  # turn off during testing
         for card in self.hand[:]:  # set back to [1:] to hide 1st card
-            print(str(card))
+            print('  ' + str(card))
 
     def did_dealer_win(self):  # maybe I don't need this function
         return self.caclulate_hand_points() == 21
@@ -160,6 +161,7 @@ class Dealer(Player):
         Assume that the dealer has not got a winning hand at start
         returns the points of the hand to compare and see who won
         """
+        print('\nIt is now the DEALERS turn to hit or stay.')
         self.print_hand()  # show the user the dealers hand
         while True:  # could be infinite loop
             points = self.caclulate_hand_points()
@@ -183,6 +185,9 @@ class Play(object):
         self.deck = Deck()
         self.dealer = Dealer()
         self.player = Player()
+
+        self.player.clear_hand()
+        self.dealer.clear_hand()
 
         self.turn_counter = 0  # even is dealer, odd is player
         self.players = [self.dealer, self.player]  # used in the while loop
@@ -214,7 +219,7 @@ class Play(object):
         # calculate the score, no need to calculate before because one cannot lose in the 1st two cards
         return player.caclulate_hand_points()
 
-    def play(self):
+    def play_one_game(self):
 
         # deal each player 2 cards
         self.deal_card_to_player(self.player)
@@ -255,6 +260,12 @@ class Play(object):
             winner = max((player_score, 'Player'), (dealer_score, 'Dealer'))[1]
 
         print('The winner is:' + winner)
+
+    def play(self):
+        keep_playing = 'y'
+        while keep_playing == 'y':
+            self.play_one_game()
+            keep_playing = input('Do you want to keep playing? (enter y for yes no for no)')
 
 
 p = Play()
