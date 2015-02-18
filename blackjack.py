@@ -92,7 +92,7 @@ class Player(object):
         self.hand = []
 
     def print_hand(self):
-        print('Players hand:')
+        print('\nPlayers hand:')
         for card in self.hand:
             print(str(card))
 
@@ -105,7 +105,7 @@ class Player(object):
     def how_many_aces_in_hand(self):
         total = 0
         for card in self.hand:
-            if card.face == 'Ace':
+            if card.rank == 'Ace':
                 total += 1
         return total
 
@@ -127,6 +127,7 @@ class Player(object):
     def play_turn(self, deck):
         """
         Assume that the hand is not larger than 21 points
+        returns the points of the hand to compare and see who won
         """
         self.print_hand()  # show the user their hand 1st
         while True:  # could be infinite loop
@@ -140,14 +141,14 @@ class Player(object):
                 points = self.caclulate_hand_points()
                 if points > 21:  # check if the hit put them above 21
                     break  # above 21, we do not ask hem if they want to hit or stay anymore
-
+        return self.caclulate_hand_points()
 
 
 
 class Dealer(Player):
 
     def print_hand(self):
-        print('Dealers hand:')
+        print('\nDealers hand:')
         # print('DEALER HIDES 1ST CARD')  # turn off during testing
         for card in self.hand[:]:  # set back to [1:] to hide 1st card
             print(str(card))
@@ -158,6 +159,7 @@ class Dealer(Player):
     def play_turn(self, deck):
         """
         Assume that the dealer has not got a winning hand at start
+        returns the points of the hand to compare and see who won
         """
         self.print_hand()  # show the user the dealers hand
         while True:  # could be infinite loop
@@ -169,6 +171,7 @@ class Dealer(Player):
                 self.print_hand()  # show the user the hand
             else:  # stay
                 break
+        return self.caclulate_hand_points()
 
 
 
@@ -212,7 +215,27 @@ class Play(object):
         return player.caclulate_hand_points()
 
     def play(self):
-        turn_counter = 0
+
+        # deal each player 2 cards
+        self.deal_card_to_player(self.player)
+        self.deal_card_to_player(self.dealer)
+        self.deal_card_to_player(self.player)
+        self.deal_card_to_player(self.dealer)
+
+        # DEBUG
+        # rig hand so dealer gets ace
+        # self.dealer.clear_hand()
+        # self.dealer.add_card_to_hand(Card('Spades', 'Ace'))
+        # self.dealer.add_card_to_hand(Card('Diamonds', 'Ace'))
+
+        # show the cards
+        self.player.print_hand()
+        self.dealer.print_hand()
+
+        # DEBUG
+        # if dealer has 21 at start he wins
+        # dd = (self.dealer.did_dealer_win())
+        # print(dd)
 
 
 
