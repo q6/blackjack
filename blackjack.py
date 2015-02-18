@@ -148,7 +148,7 @@ class Dealer(Player):
 
     def print_hand(self):
         print('Dealers hand:')
-        print('DEALER HIDES 1ST CARD')
+        # print('DEALER HIDES 1ST CARD')  # turn off during testing
         for card in self.hand[:]:  # set back to [1:] to hide 1st card
             print(str(card))
 
@@ -161,7 +161,14 @@ class Dealer(Player):
         """
         self.print_hand()  # show the user the dealers hand
         while True:  # could be infinite loop
-            if self.caclulate_hand_points() > 21:
+            points = self.caclulate_hand_points()
+            if points > 21:  # dealer is above 21
+                break
+            elif points <= 17:  # lower or equal to 18, hit it!
+                self.add_card_to_hand(deck.pick_random_card())
+                self.print_hand()  # show the user the hand
+            else:  # stay
+                break
 
 
 
