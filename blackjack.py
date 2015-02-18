@@ -141,7 +141,6 @@ class Play(object):
         self.dealer = Dealer()
         self.player = Player()
 
-        self.turn_counter = 0  # even is dealer, odd is player
         self.players = [self.dealer, self.player]  # used in the while loop
 
 
@@ -176,6 +175,7 @@ class Play(object):
         player_points = 0
         dealer_keeps_playing = True
         player_keeps_playing = True
+        turn_counter = 0  # even is dealer, odd is player
 
         # for now kinda hard coded the moves AIDS
         # first deal each player two cards, then show the two card. p -> d -> p -> d
@@ -187,8 +187,9 @@ class Play(object):
         print()  # ^ player, v dealer
         self.dealer.print_hand()
 
-        while dealer_keeps_playing and player_keeps_playing:  # while nobody has over 21 points, keep playing
-            if self.turn_counter % 2 == 0:  # is even, dealers turn
+        while dealer_keeps_playing or player_keeps_playing:  # while nobody has over 21 points, keep playing
+            if turn_counter % 2 == 0:  # is even, dealers turn
+                print('Dealer\'s Turn')
                 dealer_points = self.dealer.caclulate_hand_points()
                 if dealer_points > 21:  # dealer is over 21 -> lose
                     print('Dealer Loses')
@@ -197,15 +198,16 @@ class Play(object):
                     self.dealer.add_card_to_hand(self.deck.pick_random_card())
                 else:  # dealer is between 17 and 21, we stay!
                     dealer_keeps_playing = False
+                turn_counter += 1
             else:  # it's the players turn
+                print('Player\'s Turn')
                 player_points = self.turn(self.player)
                 if player_points > 21:
                     print('Player Looses')
                     player_keeps_playing = False
                 else:  # redundant
                     player_keeps_playing = True
-
-            self.turn_counter += 1
+                turn_counter += 1
 
 
 p = Play()
