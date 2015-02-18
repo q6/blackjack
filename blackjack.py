@@ -26,7 +26,7 @@ class Card(object):
         self.points = self.card_values[rank]
 
     def __str__(self):
-        return '{} of {}'.format(self.rank, self.suit)
+        return '  {} of {}'.format(self.rank, self.suit)
 
 
 class Deck(object):
@@ -73,7 +73,7 @@ class Deck(object):
 class Player(object):
 
     def __init__(self):
-        self.hand = []
+        self.hand = []  # a list of Card objects
 
     def add_card_to_hand(self, card):
         """
@@ -94,7 +94,7 @@ class Player(object):
     def print_hand(self):
         print('\nPlayers hand:')
         for card in self.hand:
-            print('  ' + str(card))
+            print(str(card))
 
     def ace_in_hand(self):  # deprecated
         for card in self.hand:
@@ -138,7 +138,11 @@ class Player(object):
                 break
             else:  # user wants to hit
                 print('Player hits.')
-                self.print_hand()  # show the hand again after he hits
+                print('=' * 100)
+                card = self.add_card_to_hand(deck.pick_random_card())
+                print('=' * 100)
+                print(str(card))
+                # print(str(self.hand[:-1]))  # print out just the new card that was added
                 points = self.caclulate_hand_points()
                 if points > 21:  # check if the hit put them above 21
                     break  # above 21, we do not ask hem if they want to hit or stay anymore
@@ -151,7 +155,7 @@ class Dealer(Player):
         print('\nDealers hand:')
         # print('DEALER HIDES 1ST CARD')  # turn off during testing
         for card in self.hand[:]:  # set back to [1:] to hide 1st card
-            print('  ' + str(card))
+            print(str(card))
 
     def did_dealer_win(self):  # maybe I don't need this function
         return self.caclulate_hand_points() == 21
@@ -169,9 +173,11 @@ class Dealer(Player):
                 print('Dealer is busted!')
                 break
             elif points <= 17:  # lower or equal to 18, hit it!
-                self.add_card_to_hand(deck.pick_random_card())
-                print('Dealer Hits')
-                self.print_hand()  # show the user the hand
+                print('\nDealer Hits')
+                card = self.add_card_to_hand(deck.pick_random_card())
+                print(str(card))
+                # self.add_card_to_hand(deck.pick_random_card())
+                # print(str(self.hand[:-1]))  # print out just the new card that was added
             else:  # stay
                 print('Dealer Stays')
                 break
@@ -180,18 +186,17 @@ class Dealer(Player):
 
 class Play(object):
 
-
     def __init__(self):
         self.deck = Deck()
         self.dealer = Dealer()
         self.player = Player()
 
+        # reset hand so that the user can keep playing
         self.player.clear_hand()
         self.dealer.clear_hand()
 
         self.turn_counter = 0  # even is dealer, odd is player
         self.players = [self.dealer, self.player]  # used in the while loop
-
 
 
     def deal_card_to_player(self, player):
@@ -202,7 +207,6 @@ class Play(object):
         """
         card = player.add_card_to_hand(self.deck.pick_random_card())
         return card
-
 
     def turn(self, player):  # WIP/ might not need/use
         """
@@ -244,7 +248,7 @@ class Play(object):
 
         # dealer goes first
         dealer_score = self.dealer.play_turn(self.deck)
-        print(dealer_score)  # DEBUG
+        # print(dealer_score)  # DEBUG
         if dealer_score <= 21:  # dealer is not out of the game
             # player goes second
             player_score = self.player.play_turn(self.deck)
