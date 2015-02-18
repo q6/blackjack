@@ -31,7 +31,7 @@ class Card(object):
 
 class Deck(object):
 
-    suits = ['Spades', 'Diamonds', 'Heart', 'Clubs']
+    suits = ['Spades', 'Diamonds', 'Hearts', 'Clubs']
     ranks = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'Jack', 'Queen', 'King', 'Ace']
 
     def __init__(self):
@@ -107,7 +107,7 @@ class Player(object):
                 total += 1
         return total
 
-    def check_hand_value(self):
+    def caclulate_hand_points(self):
         """
         calculate the points of the current hand
         :return: True if user can keep playing, False otherwise
@@ -129,7 +129,7 @@ class Dealer(Player):
 
     def print_hand(self):
         print('DEALER HIDES 1ST CARD')
-        for card in self.hand[1:]:
+        for card in self.hand[:]:  # set back to [1:] to hide 1st card
             print(str(card))
 
 
@@ -141,7 +141,8 @@ class Play(object):
         self.dealer = Dealer()
         self.player = Player()
 
-        self.turn = 0  # even is dealer, odd is player
+        self.turn_counter = 0  # even is dealer, odd is player
+        self.players = [self.dealer, self.player]  # used in the while loop
 
 
 
@@ -155,30 +156,56 @@ class Play(object):
         return card
 
 
-    def turn(self, player):  # WIP, might not need/use
+    def turn(self, player):
         """
-        Completes one turn of the game. # show player the cards, ask what they want to do
-        :param player: A player object
-        :return: nothing
+        Method only used for player, not AI dealer
+        1. show the user their hand
+        2. ask if user wants to hit or stay
+        3. if they hit calculate the value again
+        :return: points in the hand
         """
         player.print_hand()
-
+        hit_or_stay = input('Do you want to hit or stay? (enter (enter y to hit n to stay)')
+        if hit_or_stay == 'y':
+            player.add_card_to_hand(self.deck.pick_random_card())
+        # calculate the score, no need to calculate before because one cannot lose in the 1st two cards
+        return player.caclulate_hand_points()
 
     def play(self):
         dealer_points = 0
         player_points = 0
+        dealer_keeps_playing = True
+        player_keeps_playing = True
 
-        # for now kinda hard code the moves AIDS
+        # for now kinda hard coded the moves AIDS
         # first deal each player two cards, then show the two card. p -> d -> p -> d
         self.deal_card_to_player(self.player)  # this function call seems weird, ?player.deal_card_to_player()? better?
         self.deal_card_to_player(self.dealer)
         self.deal_card_to_player(self.player)
         self.deal_card_to_player(self.dealer)
         self.player.print_hand()
+        print()  # ^ player, v dealer
         self.dealer.print_hand()
 
-        while player_points <= 21 or dealer_points <= 21:  # while nobody has over 21 points, keep playing
-            break
+        while dealer_keeps_playing and player_keeps_playing:  # while nobody has over 21 points, keep playing
+            if self.turn_counter % 2 == 0:  # is even, dealers turn
+                dealer_points = self.dealer.caclulate_hand_points()
+                if dealer_points > 21:  # dealer is over 21 -> lose
+                    print('Dealer Loses')
+                    dealer_keeps_playing = False
+                elif dealer_points <= 17:  # dealer points is 17 or lower, hit it!
+                    self.dealer.add_card_to_hand(self.deck.pick_random_card())
+                else:  # dealer is between 17 and 21, we stay!
+                    dealer_keeps_playing = False
+            else:  # it's the players turn
+                player_points = self.turn(self.player)
+                if player_points > 21:
+                    print('Player Looses')
+                    player_keeps_playing = False
+                else:  # redundant
+                    player_keeps_playing = True
+
+            self.turn_counter += 1
 
 
 p = Play()
