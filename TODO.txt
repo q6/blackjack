@@ -1,0 +1,17 @@
+#WRONG
+The way this game works:
+
+1. Get a single new deck
+
+2. Deal the dealer a card
+3. Deal the player a card
+4. Deal the dealer a card
+5. Deal the player a card
+
+6. Check ot see if the dealer has 21 points -> instant win
+
+7. Ask the player if he wants to hit
+
+
+
+9. Announce winner and loser

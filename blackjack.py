@@ -80,6 +80,7 @@ class Player(object):
         Assume card is a valid card object not in hand
         """
         self.hand.append(card)
+        return card
 
     def remove_card_from_hand(self, card):
         """
@@ -91,6 +92,7 @@ class Player(object):
         self.hand = []
 
     def print_hand(self):
+        print('Players hand:')
         for card in self.hand:
             print(str(card))
 
@@ -122,15 +124,46 @@ class Player(object):
                     break
         return total
 
+    def play_turn(self, deck):
+        """
+        Assume that the hand is not larger than 21 points
+        """
+        self.print_hand()  # show the user their hand 1st
+        while True:  # could be infinite loop
+            user_choice = input('Player: Would you like to stay or hit? (s to stay h to hit)')
+            if user_choice == 's':  # user chooses to stay
+                print('Player stays.')
+                break
+            else:  # user wants to hit
+                print('Player hits.')
+                self.print_hand()  # show the hand again after he hits
+                points = self.caclulate_hand_points()
+                if points > 21:  # check if the hit put them above 21
+                    break  # above 21, we do not ask hem if they want to hit or stay anymore
+
 
 
 
 class Dealer(Player):
 
     def print_hand(self):
+        print('Dealers hand:')
         print('DEALER HIDES 1ST CARD')
         for card in self.hand[:]:  # set back to [1:] to hide 1st card
             print(str(card))
+
+    def did_dealer_win(self):  # maybe I don't need this function
+        return self.caclulate_hand_points() == 21
+
+    def play_turn(self, deck):
+        """
+        Assume that the dealer has not got a winning hand at start
+        """
+        self.print_hand()  # show the user the dealers hand
+        while True:  # could be infinite loop
+            if self.caclulate_hand_points() > 21:
+
+
 
 
 class Play(object):
@@ -156,7 +189,7 @@ class Play(object):
         return card
 
 
-    def turn(self, player):
+    def turn(self, player):  # WIP/ might not need/use
         """
         Method only used for player, not AI dealer
         1. show the user their hand
@@ -172,40 +205,8 @@ class Play(object):
         return player.caclulate_hand_points()
 
     def play(self):
-        dealer_points = 0
-        player_points = 0
-        dealer_keeps_playing = True
-        player_keeps_playing = True
+        turn_counter = 0
 
-        # for now kinda hard coded the moves AIDS
-        # first deal each player two cards, then show the two card. p -> d -> p -> d
-        self.deal_card_to_player(self.player)  # this function call seems weird, ?player.deal_card_to_player()? better?
-        self.deal_card_to_player(self.dealer)
-        self.deal_card_to_player(self.player)
-        self.deal_card_to_player(self.dealer)
-        self.player.print_hand()
-        print()  # ^ player, v dealer
-        self.dealer.print_hand()
-
-        while dealer_keeps_playing and player_keeps_playing:  # while nobody has over 21 points, keep playing
-            if self.turn_counter % 2 == 0:  # is even, dealers turn
-                dealer_points = self.dealer.caclulate_hand_points()
-                if dealer_points > 21:  # dealer is over 21 -> lose
-                    print('Dealer Loses')
-                    dealer_keeps_playing = False
-                elif dealer_points <= 17:  # dealer points is 17 or lower, hit it!
-                    self.dealer.add_card_to_hand(self.deck.pick_random_card())
-                else:  # dealer is between 17 and 21, we stay!
-                    dealer_keeps_playing = False
-            else:  # it's the players turn
-                player_points = self.turn(self.player)
-                if player_points > 21:
-                    print('Player Looses')
-                    player_keeps_playing = False
-                else:  # redundant
-                    player_keeps_playing = True
-
-            self.turn_counter += 1
 
 
 p = Play()
