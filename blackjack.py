@@ -1,3 +1,5 @@
+from time import sleep
+
 class Card(object):
 
     card_values = {
@@ -132,15 +134,14 @@ class Player(object):
         print('\nIt is now the PLAYERS turn to hit or stay.')
         self.print_hand()  # show the user their hand 1st
         while True:  # could be infinite loop
+            sleep(1.5)  # ass a small delay, makes it easier to read
             user_choice = input('Player: Would you like to stay or hit? (s to stay h to hit)')
             if user_choice == 's':  # user chooses to stay
                 print('Player stays.')
                 break
             else:  # user wants to hit
                 print('Player hits.')
-                print('=' * 100)
                 card = self.add_card_to_hand(deck.pick_random_card())
-                print('=' * 100)
                 print(str(card))
                 # print(str(self.hand[:-1]))  # print out just the new card that was added
                 points = self.caclulate_hand_points()
@@ -168,9 +169,10 @@ class Dealer(Player):
         print('\nIt is now the DEALERS turn to hit or stay.')
         self.print_hand()  # show the user the dealers hand
         while True:  # could be infinite loop
+            sleep(1.5)  # ass a small delay, makes it easier to read
             points = self.caclulate_hand_points()
             if points > 21:  # dealer is above 21
-                print('Dealer is busted!')
+                print('\nDealer is busted!')
                 break
             elif points <= 17:  # lower or equal to 18, hit it!
                 print('\nDealer Hits')
@@ -263,7 +265,7 @@ class Play(object):
         else:  # who is the winner?
             winner = max((player_score, 'Player'), (dealer_score, 'Dealer'))[1]
 
-        print('The winner is:' + winner)
+        print('\nThe winner is: ' + winner)
 
     def play(self):
         keep_playing = 'y'
