@@ -3,7 +3,7 @@ This is a simple python implementation of the game __Blackjack__. There is nothi
 
 ![ascii playing cards](http://i.imgur.com/tZKYCeg.png)
 
-The current implementation features:
+__Features:__
 
 
  - Human player vs AI dealer
@@ -12,9 +12,11 @@ The current implementation features:
  - Console and text based interaction
  
 
-TODO:
+__TODO:__
 
+ - Code clean-up
  - Split cards
  - Simple ASCII art output of cards (see image)
 
-*This Game is a __W__ork __I__n __P__rogress*
+
+_This Game is a __W__ork __I__n __P__rogress_
