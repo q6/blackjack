@@ -9,7 +9,7 @@ __Features:__
  - Human player vs AI dealer
  - Dealer wins on tie
  - Ace can be high or low
- - Console and text based interaction
+ - Console based text interaction
  
 
 __TODO:__
