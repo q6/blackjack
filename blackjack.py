@@ -184,6 +184,7 @@ class Play(object):
         self.dealer = Dealer()
         self.player = Player()
 
+        self.turn_counter = 0  # even is dealer, odd is player
         self.players = [self.dealer, self.player]  # used in the while loop
 
 
@@ -214,21 +215,9 @@ class Play(object):
         return player.caclulate_hand_points()
 
     def play(self):
-<<<<<<< HEAD
-        dealer_points = 0
-        player_points = 0
-        dealer_keeps_playing = True
-        player_keeps_playing = True
-        turn_counter = 0  # even is dealer, odd is player
-
-        # for now kinda hard coded the moves AIDS
-        # first deal each player two cards, then show the two card. p -> d -> p -> d
-        self.deal_card_to_player(self.player)  # this function call seems weird, ?player.deal_card_to_player()? better?
-=======
 
         # deal each player 2 cards
         self.deal_card_to_player(self.player)
->>>>>>> better-play
         self.deal_card_to_player(self.dealer)
         self.deal_card_to_player(self.player)
         self.deal_card_to_player(self.dealer)
@@ -243,29 +232,6 @@ class Play(object):
         self.player.print_hand()
         self.dealer.print_hand()
 
-<<<<<<< HEAD
-        while dealer_keeps_playing or player_keeps_playing:  # while nobody has over 21 points, keep playing
-            if turn_counter % 2 == 0:  # is even, dealers turn
-                print('Dealer\'s Turn')
-                dealer_points = self.dealer.caclulate_hand_points()
-                if dealer_points > 21:  # dealer is over 21 -> lose
-                    print('Dealer Loses')
-                    dealer_keeps_playing = False
-                elif dealer_points <= 17:  # dealer points is 17 or lower, hit it!
-                    self.dealer.add_card_to_hand(self.deck.pick_random_card())
-                else:  # dealer is between 17 and 21, we stay!
-                    dealer_keeps_playing = False
-                turn_counter += 1
-            else:  # it's the players turn
-                print('Player\'s Turn')
-                player_points = self.turn(self.player)
-                if player_points > 21:
-                    print('Player Looses')
-                    player_keeps_playing = False
-                else:  # redundant
-                    player_keeps_playing = True
-                turn_counter += 1
-=======
         # DEBUG
         # if dealer has 21 at start he wins
         # dd = (self.dealer.did_dealer_win())
@@ -289,7 +255,6 @@ class Play(object):
             winner = max((player_score, 'Player'), (dealer_score, 'Dealer'))[1]
 
         print('The winner is:' + winner)
->>>>>>> better-play
 
 
 p = Play()
