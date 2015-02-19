@@ -41,6 +41,7 @@ def ascii_version_of_card(*cards):
 
     return '\n'.join(result)
 
+
 def ascii_version_of_hidden_card(*cards):
     return '┌─────────┐\n' + ('│░░░░░░░░░│\n' * 7) + '└─────────┘'
 
