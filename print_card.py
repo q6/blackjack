@@ -30,11 +30,11 @@ def convert_card_to_ascii(*cards):
         lines[8].append('└─────────┘')
 
     # result = ''.join(line_1) + '\n' + ''.join(line_2) + '\n' + ''.join(line_3) + '\n' + ''.join(line_4) + '\n' + ''.join(line_5) + '\n' + ''.join(line_6) + '\n' + ''.join(line_7) + '\n' + ''.join(line_8) + '\n' + ''.join(line_9)
-    result = ''
+    result = []
     for index, line in enumerate(lines):
-        result += ''.join(lines[index]) + '\n'
+        result.append(''.join(lines[index]))
 
-    return result
+    return '\n'.join(result)
 
 test_card_1 = Card('Diamonds', '4')
 test_card_2 = Card('Clubs', 'Ace')
