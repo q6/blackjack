@@ -121,12 +121,12 @@ class Player(object):
         else:
             player = 'Player'
 
-        sleep(1)
+        self.wait_for_user()
         print('\nIt is now the {}\'s turn'.format(player))
-        sleep(1)
+        self.wait_for_user()
         self.print_hand()
         while True:  # danger zone
-            sleep(1)  # add small delay
+            self.wait_for_user()  # add small delay
             points = self.caclulate_hand_points()
             if points > 21:  # BUSTED!
                 print('\n{} is BUSTED!\n'.format(player))
@@ -154,10 +154,13 @@ class Player(object):
 
 class Dealer(Player):
 
-    def print_hand(self):
+    def print_hand(self, hide_first_card=True):
         print('\nDealers hand:')
-        # print('DEALER HIDES 1ST CARD')  # turn off during testing
-        for card in self.hand[:]:  # set back to [1:] to hide 1st card
+        if hide_first_card:
+            print('  UNKNOWN')
+        else:  # show 1st card
+            print(str(self.hand[0]))
+        for card in self.hand[1:]:  # set back to [1:] to hide 1st card
             print(str(card))
 
     def did_dealer_win(self):  # maybe I don't need this function
@@ -178,6 +181,8 @@ class Play(object):
         self.turn_counter = 0  # even is dealer, odd is player
         self.players = [self.dealer, self.player]  # used in the while loop
 
+    def wait_for_user(self):
+        input('\nPress enter to continue.\n')
 
     def deal_card_to_player(self, player):
         """
@@ -224,7 +229,7 @@ class Play(object):
 
         # show the cards after they've been dealt
         self.player.print_hand()
-        sleep(1)
+        self.wait_for_user()
         self.dealer.print_hand()
 
         # # dealer goes first
@@ -264,15 +269,12 @@ class Play(object):
             winner = get_winner_high_card(player_score, dealer_score)
 
         # Announce the winner
-        sleep(1)
-        print('=' * 20 + 'GAME FINISHED' + '=' * 20)
-        sleep(1)
+        self.wait_for_user()
+        print('\n' + '=' * 20 + ' GAME FINISHED ' + '=' * 20)
         print('\nThe cards were:')
-        sleep(1)
         self.player.print_hand()
-        sleep(1)
         self.dealer.print_hand()
-        sleep(1)
+        self.wait_for_user()
         print('\nThe winner is: ' + winner)
 
     def play(self):
