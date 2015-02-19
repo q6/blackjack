@@ -126,29 +126,6 @@ class Player(object):
                     break
         return total
 
-    def play_turn(self, deck):
-        """
-        Assume that the hand is not larger than 21 points
-        returns the points of the hand to compare and see who won
-        """
-        print('\nIt is now the PLAYERS turn to hit or stay.')
-        self.print_hand()  # show the user their hand 1st
-        while True:  # could be infinite loop
-            sleep(1.5)  # ass a small delay, makes it easier to read
-            user_choice = input('Player: Would you like to stay or hit? (s to stay h to hit)')
-            if user_choice == 's':  # user chooses to stay
-                print('Player stays.')
-                break
-            else:  # user wants to hit
-                print('Player hits.')
-                card = self.add_card_to_hand(deck.pick_random_card())
-                print(str(card))
-                # print(str(self.hand[:-1]))  # print out just the new card that was added
-                points = self.caclulate_hand_points()
-                if points > 21:  # check if the hit put them above 21
-                    break  # above 21, we do not ask hem if they want to hit or stay anymore
-        return self.caclulate_hand_points()
-
     def play_turn_2(self, deck, auto_hit=False):
         """
         Allows a user to play "a turn", either the dealer (AI) or player.
@@ -163,9 +140,12 @@ class Player(object):
         else:
             player = 'Player'
 
+        sleep(1)
         print('\nIt is now the {}\'s turn'.format(player))
+        sleep(1)
         self.print_hand()
         while True:  # danger zone
+            sleep(1)  # add small delay
             points = self.caclulate_hand_points()
             if points > 21:  # BUSTED!
                 print('\n{} is BUSTED!\n'.format(player))
@@ -178,11 +158,14 @@ class Player(object):
                 elif not auto_hit:  # player can hit even if he is at 20, (x) _ (x)  # PLAYER
                     user_choice = input('Player: Do you want to stay or hit? (s to stay, h to hit)')
                     if user_choice == 's':  # player stays
+                        print('{} stays.'.format(player))
                         break
-                    else:
+                    else:  # player hits
                         print('\nPlayer hits.')
                         card = self.add_card_to_hand(deck.pick_random_card())
                         print(str(card))
+                else:  # dealer stays  # AI DEALER
+                    print('{} stays.'.format(player))
 
         return self.caclulate_hand_points()  # return the points to be able to see who wins
 
@@ -197,30 +180,6 @@ class Dealer(Player):
 
     def did_dealer_win(self):  # maybe I don't need this function
         return self.caclulate_hand_points() == 21
-
-    def play_turn(self, deck):
-        """
-        Assume that the dealer has not got a winning hand at start
-        returns the points of the hand to compare and see who won
-        """
-        print('\nIt is now the DEALERS turn to hit or stay.')
-        self.print_hand()  # show the user the dealers hand
-        while True:  # could be infinite loop
-            sleep(1.5)  # ass a small delay, makes it easier to read
-            points = self.caclulate_hand_points()
-            if points > 21:  # dealer is above 21
-                print('\nDealer is busted!')
-                break
-            elif points <= 17:  # lower or equal to 18, hit it!
-                print('\nDealer Hits')
-                card = self.add_card_to_hand(deck.pick_random_card())
-                print(str(card))
-                # self.add_card_to_hand(deck.pick_random_card())
-                # print(str(self.hand[:-1]))  # print out just the new card that was added
-            else:  # stay
-                print('Dealer Stays')
-                break
-        return self.caclulate_hand_points()
 
 
 class Play(object):
@@ -278,6 +237,7 @@ class Play(object):
 
         # show the cards after they've been dealt
         self.player.print_hand()
+        sleep(1)
         self.dealer.print_hand()
 
         # DEBUG
