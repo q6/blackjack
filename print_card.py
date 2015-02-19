@@ -1,6 +1,6 @@
 from blackjack import Card
 
-def convert_card_to_ascii(*cards):
+def ascii_version_of_card(*cards):
     """
     Instead of a boring text version of the card we render an ASCII image of the card.
     :param cards: One or more card objects
@@ -35,18 +35,21 @@ def convert_card_to_ascii(*cards):
         lines[7].append('│       {}{}│'.format(space, rank))
         lines[8].append('└─────────┘')
 
-    # result = ''.join(line_1) + '\n' + ''.join(line_2) + '\n' + ''.join(line_3) + '\n' + ''.join(line_4) + '\n' + ''.join(line_5) + '\n' + ''.join(line_6) + '\n' + ''.join(line_7) + '\n' + ''.join(line_8) + '\n' + ''.join(line_9)
     result = []
     for index, line in enumerate(lines):
         result.append(''.join(lines[index]))
 
     return '\n'.join(result)
 
+def ascii_version_of_hidden_card(*cards):
+    return '┌─────────┐\n' + ('│░░░░░░░░░│\n' * 7) + '└─────────┘'
+
 test_card_1 = Card('Diamonds', '4')
 test_card_2 = Card('Clubs', 'Ace')
 test_card_3 = Card('Spades', 'Jack')
 test_card_4 = Card('Hearts', '10')
 
-print(convert_card_to_ascii(test_card_1, test_card_2, test_card_3, test_card_4))
+print(ascii_version_of_card(test_card_1, test_card_2, test_card_3, test_card_4))
+print(ascii_version_of_hidden_card())
 
 
