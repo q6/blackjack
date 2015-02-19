@@ -126,7 +126,7 @@ class Player(object):
                     break
         return total
 
-    def play_turn_2(self, deck, auto_hit=False):
+    def play_turn(self, deck, auto_hit=False):
         """
         Allows a user to play "a turn", either the dealer (AI) or player.
         "a turn" comes after seeing your two cards and ends once you are busted or you stay.
@@ -158,7 +158,7 @@ class Player(object):
                 elif not auto_hit:  # player can hit even if he is at 20, (x) _ (x)  # PLAYER
                     user_choice = input('\nPlayer: Do you want to stay or hit? (s to stay, h to hit)')
                     if user_choice == 's':  # player stays
-                        print('{} stays.'.format(player))
+                        print('\n{} stays.'.format(player))
                         break
                     else:  # player hits
                         print('\nPlayer hits.')
@@ -235,29 +235,17 @@ class Play(object):
         self.deal_card_to_player(self.player)
         self.deal_card_to_player(self.dealer)
 
-        # DEBUG
-        # rig hand so dealer gets ace
-        # self.dealer.clear_hand()
-        # self.dealer.add_card_to_hand(Card('Spades', 'Ace'))
-        # self.dealer.add_card_to_hand(Card('Diamonds', 'Ace'))
-
         # show the cards after they've been dealt
         self.player.print_hand()
         sleep(1)
         self.dealer.print_hand()
 
-        # DEBUG
-        # if dealer has 21 at start he wins
-        # dd = (self.dealer.did_dealer_win())
-        # print(dd)
-
         # dealer goes first
-        # dealer_score = self.dealer.play_turn(self.deck)  # old method
-        dealer_score = self.dealer.play_turn_2(self.deck, True)  # auto_hit to true because dealer is a bot
+        dealer_score = self.dealer.play_turn(self.deck, True)  # auto_hit to true because dealer is a bot
         # print(dealer_score)  # DEBUG
         if dealer_score <= 21:  # dealer is not out of the game
             # player goes second
-            player_score = self.player.play_turn_2(self.deck)
+            player_score = self.player.play_turn(self.deck)
 
         # both parties are done taking cards, let see who won  # Hit or stay phase is over
         if dealer_score > 21:  # dealer is over
@@ -270,7 +258,7 @@ class Play(object):
             winner = max((player_score, 'Player'), (dealer_score, 'Dealer'))[1]
 
         sleep(1)
-        print('Final scores are:')
+        print('\nFinal scores are:')
         print('  Player: {}'.format(player_score))
         print('  Dealer: {}'.format(dealer_score))
         sleep(1)
