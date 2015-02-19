@@ -51,16 +51,9 @@ class Deck(object):
         """
         lst = []
         for card in self.deck:
-            # lst.append(Card.__str__(card))
             lst.append(str(card))
         return '\n'.join(lst)
 
-    def remove(self, index):
-        try:  # user might want to remove card that isn't in deck
-            self.deck.pop(index)
-            return True
-        except IndexError:
-            return False
 
     def pick_random_card(self):
         """
@@ -84,12 +77,6 @@ class Player(object):
         self.hand.append(card)
         return card
 
-    def remove_card_from_hand(self, card):
-        """
-        Assume card is a valid card object in hand
-        """
-        self.hand.remove(card)
-
     def clear_hand(self):
         self.hand = []
 
@@ -97,12 +84,6 @@ class Player(object):
         print('\nPlayers hand:')
         for card in self.hand:
             print(str(card))
-
-    def ace_in_hand(self):  # deprecated
-        for card in self.hand:
-            if card.face == 'Ace':
-                return True
-        return False
 
     def how_many_aces_in_hand(self):
         total = 0
@@ -235,32 +216,62 @@ class Play(object):
         self.deal_card_to_player(self.player)
         self.deal_card_to_player(self.dealer)
 
+        # DEBUG
+        # rig hand so dealer gets ace
+        self.dealer.clear_hand()
+        self.dealer.add_card_to_hand(Card('Spades', 'King'))
+        self.dealer.add_card_to_hand(Card('Diamonds', 'Ace'))
+
         # show the cards after they've been dealt
         self.player.print_hand()
         sleep(1)
         self.dealer.print_hand()
 
-        # dealer goes first
-        dealer_score = self.dealer.play_turn(self.deck, True)  # auto_hit to true because dealer is a bot
-        # print(dealer_score)  # DEBUG
-        if dealer_score <= 21:  # dealer is not out of the game
-            # player goes second
+        # # dealer goes first
+        # # but first we check if he has not already won
+        # if self.dealer.did_dealer_win():  # instant win for dealer
+        #     winner = 'Dealer'
+        # dealer_score = self.dealer.play_turn(self.deck, True)  # auto_hit to true because dealer is a bot
+        #
+        # if dealer_score <= 21:  # dealer is not out of the game
+        #     # player goes second
+        #     player_score = self.player.play_turn(self.deck)
+
+        def get_winner_high_card(player, dealer):
+            # both parties are done taking cards, let see who won  # Hit or stay phase is over
+            if dealer > 21:  # dealer is over
+                winner = 'Player'
+            elif player > 21:  # player is over
+                winner = 'Dealer'
+            elif player == dealer:  # tie, dealer wins
+                winner = 'Dealer'
+            else:  # who is the winner? highest cards wins
+                winner = max((player, 'Player'), (dealer, 'Dealer'))[1]
+            return winner
+
+        # we check if the dealer has been dealt an instant winning hand
+        # if not the dealer plays
+        if self.dealer.did_dealer_win():  # instant win for dealer
+            winner = 'Dealer'
+        else:  # dealer did not instant win, DEALER plays
+            dealer_score = self.dealer.play_turn(self.deck, True)  # auto_hit to true because dealer is a bot
+
+        # after the dealer plays we check if he has 21, player looses and doesn't have to play
+        if not self.dealer.did_dealer_win():  # dealer didn't win (get 21), player plays
             player_score = self.player.play_turn(self.deck)
 
-        # both parties are done taking cards, let see who won  # Hit or stay phase is over
-        if dealer_score > 21:  # dealer is over
-            winner = 'Player'
-        elif player_score > 21:  # player is over
-            winner = 'Dealer'
-        elif player_score == dealer_score:  # tie, dealer wins
-            winner = 'Dealer'
-        else:  # who is the winner?
-            winner = max((player_score, 'Player'), (dealer_score, 'Dealer'))[1]
+            # both parties are done playing an we now compare cards to see who won.
+            winner = get_winner_high_card(player_score, dealer_score)
 
+        # Announce the winner
         sleep(1)
-        print('\nFinal scores are:')
-        print('  Player: {}'.format(player_score))
-        print('  Dealer: {}'.format(dealer_score))
+        print('=' * 20 + 'GAME FINISHED' + '=' * 20)
+        sleep(1)
+        print('\nThe cards were:')
+        sleep(1)
+        self.player.print_hand()
+        sleep(1)
+        self.dealer.print_hand()
         sleep(1)
         print('\nThe winner is: ' + winner)
 
