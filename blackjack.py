@@ -1,9 +1,7 @@
-from time import sleep
-
 class Card(object):
 
     card_values = {
-        'Ace': 11,
+        'Ace': 11,  # value of the ace is high until it needs to be low
         '2': 2,
         '3': 3,
         '4': 4,
@@ -223,9 +221,9 @@ class Play(object):
 
         # DEBUG
         # rig hand so dealer gets ace
-        self.dealer.clear_hand()
-        self.dealer.add_card_to_hand(Card('Spades', 'King'))
-        self.dealer.add_card_to_hand(Card('Diamonds', 'Ace'))
+        # self.dealer.clear_hand()
+        # self.dealer.add_card_to_hand(Card('Spades', 'King'))
+        # self.dealer.add_card_to_hand(Card('Diamonds', 'Ace'))
 
         # show the cards after they've been dealt
         self.player.print_hand()
