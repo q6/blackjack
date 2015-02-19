@@ -156,7 +156,7 @@ class Player(object):
                     card = self.add_card_to_hand(deck.pick_random_card())
                     print(str(card))
                 elif not auto_hit:  # player can hit even if he is at 20, (x) _ (x)  # PLAYER
-                    user_choice = input('Player: Do you want to stay or hit? (s to stay, h to hit)')
+                    user_choice = input('\nPlayer: Do you want to stay or hit? (s to stay, h to hit)')
                     if user_choice == 's':  # player stays
                         print('{} stays.'.format(player))
                         break
@@ -165,7 +165,8 @@ class Player(object):
                         card = self.add_card_to_hand(deck.pick_random_card())
                         print(str(card))
                 else:  # dealer stays  # AI DEALER
-                    print('{} stays.'.format(player))
+                    print('\n{} stays.'.format(player))
+                    break
 
         return self.caclulate_hand_points()  # return the points to be able to see who wins
 
@@ -223,6 +224,11 @@ class Play(object):
 
     def play_one_game(self):
 
+        # if the user wants to play multiple games we have to create a new deck and clear the hands
+        self.deck = Deck()
+        self.player.clear_hand()
+        self.dealer.clear_hand()
+
         # deal each player 2 cards
         self.deal_card_to_player(self.player)
         self.deal_card_to_player(self.dealer)
@@ -263,6 +269,11 @@ class Play(object):
         else:  # who is the winner?
             winner = max((player_score, 'Player'), (dealer_score, 'Dealer'))[1]
 
+        sleep(1)
+        print('Final scores are:')
+        print('  Player: {}'.format(player_score))
+        print('  Dealer: {}'.format(dealer_score))
+        sleep(1)
         print('\nThe winner is: ' + winner)
 
     def play(self):
