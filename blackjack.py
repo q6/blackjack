@@ -149,6 +149,43 @@ class Player(object):
                     break  # above 21, we do not ask hem if they want to hit or stay anymore
         return self.caclulate_hand_points()
 
+    def play_turn_2(self, deck, auto_hit=False):
+        """
+        Allows a user to play "a turn", either the dealer (AI) or player.
+        "a turn" comes after seeing your two cards and ends once you are busted or you stay.
+        :param deck: A deck object, a deck to chose a card from is the user wants to hit.
+        :param auto_hit: Dealer uses auto hit, player does not. By default this is a Player's method
+        :return: Points. The combined points of all the cards in the hand at the end of the turn.
+        """
+        # set up the print message to address the appropriate person
+        if auto_hit:
+            player = 'Dealer'
+        else:
+            player = 'Player'
+
+        print('\nIt is now the {}\'s turn'.format(player))
+        self.print_hand()
+        while True:  # danger zone
+            points = self.caclulate_hand_points()
+            if points > 21:  # BUSTED!
+                print('\n{} is BUSTED!\n'.format(player))
+                break
+            else:  # bot hits under 17 automatically, player can git as long as he is under 21 points
+                if auto_hit and points < 17:  # dealer can hit if he's at less than 17 points  # AI DEALER
+                    print('\nDealer Hits')
+                    card = self.add_card_to_hand(deck.pick_random_card())
+                    print(str(card))
+                elif not auto_hit:  # player can hit even if he is at 20, (x) _ (x)  # PLAYER
+                    user_choice = input('Player: Do you want to stay or hit? (s to stay, h to hit)')
+                    if user_choice == 's':  # player stays
+                        break
+                    else:
+                        print('\nPlayer hits.')
+                        card = self.add_card_to_hand(deck.pick_random_card())
+                        print(str(card))
+
+        return self.caclulate_hand_points()  # return the points to be able to see who wins
+
 
 class Dealer(Player):
 
