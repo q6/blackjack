@@ -270,5 +270,5 @@ class Play(object):
             keep_playing = input('Do you want to keep playing? (enter y for yes no for no)')
 
 
-p = Play()
-p.play()
+# p = Play()
+# p.play()
