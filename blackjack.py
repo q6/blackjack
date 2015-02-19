@@ -273,7 +273,7 @@ class Play(object):
         print('\n' + '=' * 20 + ' GAME FINISHED ' + '=' * 20)
         print('\nThe cards were:')
         self.player.print_hand()
-        self.dealer.print_hand()
+        self.dealer.print_hand(False)
         self.wait_for_user()
         print('\nThe winner is: ' + winner)
 
