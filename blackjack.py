@@ -276,7 +276,7 @@ class Play(object):
         # self.dealer.add_card_to_hand(Card('Spades', 'Ace'))
         # self.dealer.add_card_to_hand(Card('Diamonds', 'Ace'))
 
-        # show the cards
+        # show the cards after they've been dealt
         self.player.print_hand()
         self.dealer.print_hand()
 
@@ -286,13 +286,14 @@ class Play(object):
         # print(dd)
 
         # dealer goes first
-        dealer_score = self.dealer.play_turn(self.deck)
+        # dealer_score = self.dealer.play_turn(self.deck)  # old method
+        dealer_score = self.dealer.play_turn_2(self.deck, True)  # auto_hit to true because dealer is a bot
         # print(dealer_score)  # DEBUG
         if dealer_score <= 21:  # dealer is not out of the game
             # player goes second
-            player_score = self.player.play_turn(self.deck)
+            player_score = self.player.play_turn_2(self.deck)
 
-        # both parties are done taking cards, let see who won
+        # both parties are done taking cards, let see who won  # Hit or stay phase is over
         if dealer_score > 21:  # dealer is over
             winner = 'Player'
         elif player_score > 21:  # player is over
