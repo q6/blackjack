@@ -9,6 +9,7 @@ def convert_card_to_ascii(*cards):
     suits_name = ['Spades', 'Diamonds', 'Hearts', 'Clubs']
     suits_symbols = ['♠', '♦', '♥', '♣']
 
+    # create the empty list to add card parts to
     line_1 = []
     line_2 = []
     line_3 = []
@@ -20,16 +21,20 @@ def convert_card_to_ascii(*cards):
     line_9 = []
 
     for card in cards:
+        rank = card.rank[0]  # some have a rank of 'King' this changes that to a simple 'K' ("King" doesn't fit)
+        # get the cards suit in two steps
         suit = suits_name.index(card.suit)
         suit = suits_symbols[suit]
+
+        # add the individual card on a line by line basis
         line_1.append('┌─────────┐')
-        line_2.append('│{}        │'.format(card.rank))
+        line_2.append('│{}        │'.format(rank))
         line_3.append('│         │')
         line_4.append('│         │')
         line_5.append('│    {}    │'.format(suit))
         line_6.append('│         │')
         line_7.append('│         │')
-        line_8.append('│        {}│'.format(card.rank))
+        line_8.append('│        {}│'.format(rank))
         line_9.append('└─────────┘')
 
     result = ''.join(line_1) + '\n' + ''.join(line_2) + '\n' + ''.join(line_3) + '\n' + ''.join(line_4) + '\n' + ''.join(line_5) + '\n' + ''.join(line_6) + '\n' + ''.join(line_7) + '\n' + ''.join(line_8) + '\n' + ''.join(line_9)
@@ -37,7 +42,7 @@ def convert_card_to_ascii(*cards):
     return result
 
 test_card_1 = Card('Diamonds', '4')
-test_card_2 = Card('Clubs', '5')
+test_card_2 = Card('Clubs', 'Ace')
 
 print(convert_card_to_ascii(test_card_1, test_card_2))
 
