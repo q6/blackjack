@@ -1,4 +1,4 @@
-def wait_for_user():
+def wait_for_user():  # should this really be global?
     input('\nPress enter to continue.\n')
 
 
@@ -157,7 +157,7 @@ class Player(object):
 class Dealer(Player):
 
     def print_hand(self, hide_first_card=True):
-        print('\nDealers hand:')
+        print('Dealers hand:')
         if hide_first_card:
             print('  UNKNOWN')
         else:  # show 1st card
@@ -261,6 +261,9 @@ class Play(object):
         print('\nThe winner is: ' + winner)
 
     def play(self):
+        # Let the user know they are playing blackjack
+        print('='*20 + ' Welcome to Blackjack ' + '='*20)
+
         keep_playing = 'y'
         while keep_playing == 'y':
             self.play_one_game()
