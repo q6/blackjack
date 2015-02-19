@@ -56,7 +56,6 @@ class Deck(object):
             lst.append(str(card))
         return '\n'.join(lst)
 
-
     def pick_random_card(self):
         """
         :return: a randomly selected Card object from deck.
@@ -66,6 +65,7 @@ class Deck(object):
         card = self.deck[card_index]  # store random card
         self.deck.pop(card_index)  # remove that card from the deck
         return card
+
 
 class Player(object):
 
@@ -183,9 +183,6 @@ class Play(object):
         self.turn_counter = 0  # even is dealer, odd is player
         self.players = [self.dealer, self.player]  # used in the while loop
 
-    def wait_for_user(self):
-        input('\nPress enter to continue.\n')
-
     def deal_card_to_player(self, player):
         """
         deals the player a random card
@@ -227,7 +224,6 @@ class Play(object):
         self.player.print_hand()
         wait_for_user()
         self.dealer.print_hand()
-
 
         def get_winner_high_card(player, dealer):
             # both parties are done taking cards, let see who won  # Hit or stay phase is over
