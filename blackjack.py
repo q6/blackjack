@@ -1,3 +1,7 @@
+def wait_for_user(self):
+    input('\nPress enter to continue.\n')
+
+
 class Card(object):
 
     card_values = {
@@ -119,12 +123,12 @@ class Player(object):
         else:
             player = 'Player'
 
-        self.wait_for_user()
+        wait_for_user()
         print('\nIt is now the {}\'s turn'.format(player))
-        self.wait_for_user()
+        wait_for_user()
         self.print_hand()
         while True:  # danger zone
-            self.wait_for_user()  # add small delay
+            wait_for_user()  # add small delay
             points = self.caclulate_hand_points()
             if points > 21:  # BUSTED!
                 print('\n{} is BUSTED!\n'.format(player))
@@ -227,7 +231,7 @@ class Play(object):
 
         # show the cards after they've been dealt
         self.player.print_hand()
-        self.wait_for_user()
+        wait_for_user()
         self.dealer.print_hand()
 
         # # dealer goes first
@@ -267,12 +271,12 @@ class Play(object):
             winner = get_winner_high_card(player_score, dealer_score)
 
         # Announce the winner
-        self.wait_for_user()
+        wait_for_user()
         print('\n' + '=' * 20 + ' GAME FINISHED ' + '=' * 20)
         print('\nThe cards were:')
         self.player.print_hand()
         self.dealer.print_hand(False)
-        self.wait_for_user()
+        wait_for_user()
         print('\nThe winner is: ' + winner)
 
     def play(self):
