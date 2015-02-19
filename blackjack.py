@@ -1,4 +1,4 @@
-def wait_for_user(self):
+def wait_for_user():
     input('\nPress enter to continue.\n')
 
 
@@ -223,26 +223,11 @@ class Play(object):
         self.deal_card_to_player(self.player)
         self.deal_card_to_player(self.dealer)
 
-        # DEBUG
-        # rig hand so dealer gets ace
-        # self.dealer.clear_hand()
-        # self.dealer.add_card_to_hand(Card('Spades', 'King'))
-        # self.dealer.add_card_to_hand(Card('Diamonds', 'Ace'))
-
-        # show the cards after they've been dealt
+        # show the users their cards
         self.player.print_hand()
         wait_for_user()
         self.dealer.print_hand()
 
-        # # dealer goes first
-        # # but first we check if he has not already won
-        # if self.dealer.did_dealer_win():  # instant win for dealer
-        #     winner = 'Dealer'
-        # dealer_score = self.dealer.play_turn(self.deck, True)  # auto_hit to true because dealer is a bot
-        #
-        # if dealer_score <= 21:  # dealer is not out of the game
-        #     # player goes second
-        #     player_score = self.player.play_turn(self.deck)
 
         def get_winner_high_card(player, dealer):
             # both parties are done taking cards, let see who won  # Hit or stay phase is over
