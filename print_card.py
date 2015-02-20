@@ -1,9 +1,11 @@
 from blackjack import Card
 
-def ascii_version_of_card(*cards):
+def ascii_version_of_card(*cards, return_string=True):
     """
     Instead of a boring text version of the card we render an ASCII image of the card.
     :param cards: One or more card objects
+    :param return_string: By default we return the string version of the card, but the dealer hide the 1st card and we
+    keep it as a list so that the dealer can add a hidden card in front of the list
     """
     # we will use this to prints the appropriate icons for each card
     suits_name = ['Spades', 'Diamonds', 'Hearts', 'Clubs']
@@ -26,7 +28,7 @@ def ascii_version_of_card(*cards):
 
         # add the individual card on a line by line basis
         lines[0].append('┌─────────┐')
-        lines[1].append('│{}{}       │'.format(rank, space))
+        lines[1].append('│{}{}       │'.format(rank, space))  # use two {} one for char, one for space or char
         lines[2].append('│         │')
         lines[3].append('│         │')
         lines[4].append('│    {}    │'.format(suit))
@@ -39,8 +41,11 @@ def ascii_version_of_card(*cards):
     for index, line in enumerate(lines):
         result.append(''.join(lines[index]))
 
-    return '\n'.join(result)
-
+    # hidden cards do not use string
+    if return_string:
+        return '\n'.join(result)
+    else:
+        return result
 
 def ascii_version_of_hidden_card(*cards):
     return '┌─────────┐\n' + ('│░░░░░░░░░│\n' * 7) + '└─────────┘'
