@@ -47,14 +47,27 @@ def ascii_version_of_card(*cards, return_string=True):
     else:
         return result
 
+
 def ascii_version_of_hidden_card(*cards):
     """
     Essentially the dealers method of print ascii cards. This method hides the first card, shows it flipped over
     :param cards: A list of card objects, the first will be hidden
     :return: A string, the nice ascii version of cards
     """
-    # a flipper over card
-    lines = [['┌─────────┐'], ['│░░░░░░░░░│'], ['│░░░░░░░░░│'], ['│░░░░░░░░░│'], ['│░░░░░░░░░│'], ['│░░░░░░░░░│'], ['│░░░░░░░░░│'], ['│░░░░░░░░░│'], ['└─────────┘']]
+    # a flipper over card. # This is a list of lists instead of a list of string becuase appending to a list is better then adding a string
+    # lines = [['┌─────────┐'], ['│░░░░░░░░░│'], ['│░░░░░░░░░│'], ['│░░░░░░░░░│'], ['│░░░░░░░░░│'], ['│░░░░░░░░░│'], ['│░░░░░░░░░│'], ['│░░░░░░░░░│'], ['└─────────┘']]
+    lines = [
+    ['┌─────────┐'],
+    ['│░░░░░░░░░│'],
+    ['│░░░░░░░░░│'],
+    ['│░░░░░░░░░│'],
+    ['│░░░░░░░░░│'],
+    ['│░░░░░░░░░│'],
+    ['│░░░░░░░░░│'],
+    ['│░░░░░░░░░│'],
+    ['└─────────┘']
+    ]
+
 
     # store the non-flipped over card after the one that is flipped over
     cards_except_first = ascii_version_of_card(*cards[1:], return_string=False)
@@ -69,6 +82,7 @@ def ascii_version_of_hidden_card(*cards):
     return '\n'.join(lines)
 
 
+# TEST CASES
 test_card_1 = Card('Diamonds', '4')
 test_card_2 = Card('Clubs', 'Ace')
 test_card_3 = Card('Spades', 'Jack')
