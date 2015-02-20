@@ -48,14 +48,42 @@ def ascii_version_of_card(*cards, return_string=True):
         return result
 
 def ascii_version_of_hidden_card(*cards):
-    return '┌─────────┐\n' + ('│░░░░░░░░░│\n' * 7) + '└─────────┘'
+    # return '┌─────────┐\n' + ('│░░░░░░░░░│\n' * 7) + '└─────────┘'
+    # x = ['┌─────────┐', ['│░░░░░░░░░│' for i in range(7)], '└─────────┘']
+    """
+    Essentially the dealers method of print ascii cards. This method hies the first card, shows it flipped over
+    :param cards: A list of card objects, the first will be hidden
+    :return: A string, the nice asci version of cards
+    """
+    line_1 = '┌─────────┐'
+    line_2 = '│░░░░░░░░░│'
+    line_3 = line_2
+    line_4 = line_2
+    line_5 = line_2
+    line_6 = line_2
+    line_7 = line_2
+    line_8 = line_2
+    line_9 = '└─────────┘'
+
+    lines = ['┌─────────┐', '│░░░░░░░░░│', '│░░░░░░░░░│', '│░░░░░░░░░│', '│░░░░░░░░░│', '│░░░░░░░░░│', '│░░░░░░░░░│', '│░░░░░░░░░│', '└─────────┘']
+    cards_except_first = ascii_version_of_card(*cards[1:], return_string=False)
+    for index, line in enumerate(cards_except_first):
+        # print(line)
+        lines[index] += line
+
+    # print(lines)
+    return '\n'.join(lines)
+
+
+
 
 test_card_1 = Card('Diamonds', '4')
 test_card_2 = Card('Clubs', 'Ace')
 test_card_3 = Card('Spades', 'Jack')
 test_card_4 = Card('Hearts', '10')
 
-print(ascii_version_of_card(test_card_1, test_card_2, test_card_3, test_card_4))
-print(ascii_version_of_hidden_card())
+# print(ascii_version_of_card(test_card_1, test_card_2, test_card_3, test_card_4))
+# print(ascii_version_of_hidden_card(test_card_1, test_card_2, test_card_3, test_card_4))
+print(ascii_version_of_hidden_card(test_card_1, test_card_2))
 
 
