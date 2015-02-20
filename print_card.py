@@ -53,16 +53,20 @@ def ascii_version_of_hidden_card(*cards):
     :param cards: A list of card objects, the first will be hidden
     :return: A string, the nice ascii version of cards
     """
-    lines = ['┌─────────┐', '│░░░░░░░░░│', '│░░░░░░░░░│', '│░░░░░░░░░│', '│░░░░░░░░░│', '│░░░░░░░░░│', '│░░░░░░░░░│', '│░░░░░░░░░│', '└─────────┘']
+    # a flipper over card
+    lines = [['┌─────────┐'], ['│░░░░░░░░░│'], ['│░░░░░░░░░│'], ['│░░░░░░░░░│'], ['│░░░░░░░░░│'], ['│░░░░░░░░░│'], ['│░░░░░░░░░│'], ['│░░░░░░░░░│'], ['└─────────┘']]
+
+    # store the non-flipped over card after the one that is flipped over
     cards_except_first = ascii_version_of_card(*cards[1:], return_string=False)
     for index, line in enumerate(cards_except_first):
-        # add the 2dn, 3rd, nth card to the first hidden card
-        lines[index] += line
+        lines[index].append(line)
+
+    # make each line into a single list
+    for index, line in enumerate(lines):
+        lines[index] = ''.join(line)
 
     # convert the list into a single string
     return '\n'.join(lines)
-
-
 
 
 test_card_1 = Card('Diamonds', '4')
@@ -70,8 +74,6 @@ test_card_2 = Card('Clubs', 'Ace')
 test_card_3 = Card('Spades', 'Jack')
 test_card_4 = Card('Hearts', '10')
 
-# print(ascii_version_of_card(test_card_1, test_card_2, test_card_3, test_card_4))
-# print(ascii_version_of_hidden_card(test_card_1, test_card_2, test_card_3, test_card_4))
-print(ascii_version_of_hidden_card(test_card_1, test_card_2))
-
-
+print(ascii_version_of_card(test_card_1, test_card_2, test_card_3, test_card_4))
+print(ascii_version_of_hidden_card(test_card_1, test_card_2, test_card_3, test_card_4))
+# print(ascii_version_of_hidden_card(test_card_1, test_card_2))
