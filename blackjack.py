@@ -30,7 +30,7 @@ class Card(object):
         self.rank = rank
         self.points = self.card_values[rank]
 
-    def __str__(self):
+    def __str__(self):  # deprecated (by ASCII print), but keep it in anyway
         return '  {} of {}'.format(self.rank, self.suit)
 
 
@@ -179,8 +179,8 @@ class Player(object):
 
         wait_for_user()
         print('\nIt is now the {}\'s turn'.format(player))
-        wait_for_user()
-        self.print_hand()
+        # wait_for_user()  # useless wait if v isn't activated anyway
+        # self.print_hand()  # we do not need to show the hand after the user has just seen it
         while True:  # danger zone
             wait_for_user()  # add small delay
             points = self.caclulate_hand_points()
@@ -217,13 +217,6 @@ class Dealer(Player):
         for card in self.hand:
             cards.append(card)
         print(self.ascii_version_of_hidden_card(self.hand))
-        # deprecated by print ascii method
-        # if hide_first_card:
-        #     print('  UNKNOWN')
-        # else:  # show 1st card
-        #     print(str(self.hand[0]))
-        # for card in self.hand[1:]:  # set back to [1:] to hide 1st card
-        #     print(str(card))
 
     def ascii_version_of_hidden_card(self, cards):
         """
@@ -256,9 +249,6 @@ class Dealer(Player):
 
         # convert the list into a single string
         return '\n'.join(lines)
-
-    def did_dealer_win(self):  # maybe I don't need this function
-        return self.caclulate_hand_points() == 21
 
 
 class Play(object):
@@ -318,7 +308,10 @@ class Play(object):
         self.dealer.print_hand()
 
         def get_winner_high_card(player, dealer):
-            # both parties are done taking cards, let see who won  # Hit or stay phase is over
+            """
+            both parties are done taking cards, let see who won  # Hit or stay phase is over
+            :return: String, the name of winner we will announce in the next step ('Player' or 'Dealer")
+            """
             if dealer > 21:  # dealer is over
                 winner = 'Player'
             elif player > 21:  # player is over
@@ -330,14 +323,14 @@ class Play(object):
             return winner
 
         # we check if the dealer has been dealt an instant winning hand
-        # if not the dealer plays
-        if self.dealer.did_dealer_win():  # instant win for dealer
+        # if not the dealer actually plays
+        if self.dealer.caclulate_hand_points() == 21:  # instant win for dealer
             winner = 'Dealer'
         else:  # dealer did not instant win, DEALER plays
             dealer_score = self.dealer.play_turn(self.deck, True)  # auto_hit to true because dealer is a bot
 
         # after the dealer plays we check if he has 21, player looses and doesn't have to play
-        if not self.dealer.did_dealer_win():  # dealer didn't win (get 21), player plays
+        if not self.dealer.caclulate_hand_points() == 21:  # dealer didn't win (get 21), player plays
             player_score = self.player.play_turn(self.deck)
 
             # both parties are done playing an we now compare cards to see who won.
@@ -345,15 +338,14 @@ class Play(object):
 
         # Announce the winner
         wait_for_user()
+        print('The winner is: ' + winner)
         print('\n' + '=' * 20 + ' GAME FINISHED ' + '=' * 20)
         print('\nThe cards were:')
         self.player.print_hand()
         self.dealer.print_hand(False)
-        wait_for_user()
-        print('\nThe winner is: ' + winner)
 
     def play(self):
-        # Let the user know they are playing blackjack
+        # Let the user know they are playing blackjack, do this only once
         print('='*20 + ' Welcome to Blackjack ' + '='*20)
 
         keep_playing = 'y'

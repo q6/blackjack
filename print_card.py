@@ -1,3 +1,5 @@
+# DEPRECATED. ALL STUFF HAS BEEN MOVED INTO blackjak.py. ABANDON SHIP !
+
 # from blackjack import Card
 
 def ascii_version_of_card(*cards, return_string=True):
