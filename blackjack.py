@@ -315,19 +315,17 @@ class Play(object):
             both parties are done taking cards, let see who won  # Hit or stay phase is over
             :return: String, the name of winner we will announce in the next step ('Player' or 'Dealer")
             """
-            # TODO instead of settings winner to string just return string
             if dealer > 21:  # dealer is over
-                winner = 'Player'
+                return 'Player'
             elif player > 21:  # player is over
-                winner = 'Dealer'
+                return 'Dealer'
             elif player == dealer:  # tie, dealer wins
-                winner = 'Dealer'
+                return 'Dealer'
             else:  # who is the winner? highest cards wins
                 if player > dealer:  # player has higher card
-                    winner = 'Player'
+                    return 'Player'
                 else:  # dealer has the high card
-                    winner = 'Dealer'
-            return winner
+                    return 'Dealer'
 
         # we check if the dealer has been dealt an instant winning hand
         # if not the dealer actually plays
