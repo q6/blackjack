@@ -55,7 +55,6 @@ def ascii_version_of_hidden_card(*cards):
     :return: A string, the nice ascii version of cards
     """
     # a flipper over card. # This is a list of lists instead of a list of string becuase appending to a list is better then adding a string
-    # lines = [['┌─────────┐'], ['│░░░░░░░░░│'], ['│░░░░░░░░░│'], ['│░░░░░░░░░│'], ['│░░░░░░░░░│'], ['│░░░░░░░░░│'], ['│░░░░░░░░░│'], ['│░░░░░░░░░│'], ['└─────────┘']]
     lines = [
     ['┌─────────┐'],
     ['│░░░░░░░░░│'],
