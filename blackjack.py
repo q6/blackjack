@@ -324,17 +324,22 @@ class Play(object):
 
         # we check if the dealer has been dealt an instant winning hand
         # if not the dealer actually plays
-        if self.dealer.caclulate_hand_points() == 21:  # instant win for dealer
-            winner = 'Dealer'
-        else:  # dealer did not instant win, DEALER plays
-            dealer_score = self.dealer.play_turn(self.deck, True)  # auto_hit to true because dealer is a bot
+        def start_play_after_cards_dealt():
+            if self.dealer.caclulate_hand_points() == 21:  # instant win for dealer
+                return 'Dealer'
+            else:  # dealer did not instant win, DEALER plays
+                dealer_score = self.dealer.play_turn(self.deck, True)  # auto_hit to true because dealer is a bot
+            if dealer_score > 21:  # Dealer played and busted himself
+                return 'Player'
 
-        # after the dealer plays we check if he has 21, player looses and doesn't have to play
-        if not self.dealer.caclulate_hand_points() == 21:  # dealer didn't win (get 21), player plays
-            player_score = self.player.play_turn(self.deck)
+            # after the dealer plays we check if he has 21, player looses and doesn't have to play
+            if not self.dealer.caclulate_hand_points() == 21:  # dealer didn't win (get 21), player plays
+                player_score = self.player.play_turn(self.deck)
 
             # both parties are done playing an we now compare cards to see who won.
-            winner = get_winner_high_card(player_score, dealer_score)
+            return get_winner_high_card(player_score, dealer_score)
+
+        winner = start_play_after_cards_dealt()
 
         # Announce the winner
         wait_for_user()
