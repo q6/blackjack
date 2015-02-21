@@ -1,4 +1,4 @@
-
+# static method test #2
 def wait_for_user():  # should this really be global?
     input('\nPress enter to continue.\n')
 
@@ -95,8 +95,8 @@ class Player(object):
             cards.append(card)
         print(self.ascii_version_of_card(self.hand))
 
-    # @staticmethod
-    def ascii_version_of_card(self, cards, start=0, return_string=True):
+    @staticmethod
+    def ascii_version_of_card(cards, start=0, return_string=True):
         """
         Instead of a boring text version of the card we render an ASCII image of the card.
         :param cards: One or more card objects
