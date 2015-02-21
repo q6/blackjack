@@ -83,8 +83,8 @@ class Player(object):
     def clear_hand(self):
         self.hand = []
 
-    def print_hand(self):
-        print('\nPlayers hand:')
+    def print_hand(self, name='Player'):
+        print('\n{} hand:'.format(name))  # at the end of the game dealer uses this method to print it's non-lipped over cards
         cards = []  # ASCII method needs to know all the cards that want to be printed before it can start printing them
         for card in self.hand:
             # print(str(card))  # deprecated by ASCII card print method
@@ -92,7 +92,7 @@ class Player(object):
         print(self.ascii_version_of_card(self.hand))
 
     # @staticmethod
-    def ascii_version_of_card(self, cards, start=0, return_string=True):
+    def ascii_version_of_card(self, cards, start=0, return_string=True, name='Player'):
         """
         Instead of a boring text version of the card we render an ASCII image of the card.
         :param cards: One or more card objects
@@ -325,6 +325,11 @@ class Play(object):
         # we check if the dealer has been dealt an instant winning hand
         # if not the dealer actually plays
         def start_play_after_cards_dealt():
+            """
+            We put this code in it's own function because after we have a winner we do nto want to run another if or else
+            :return: String, Who won the game.
+            The function is invoked after the 2 cards have been dealt
+            """
             if self.dealer.caclulate_hand_points() == 21:  # instant win for dealer
                 return 'Dealer'
             else:  # dealer did not instant win, DEALER plays
@@ -336,18 +341,19 @@ class Play(object):
             if not self.dealer.caclulate_hand_points() == 21:  # dealer didn't win (get 21), player plays
                 player_score = self.player.play_turn(self.deck)
 
-            # both parties are done playing an we now compare cards to see who won.
-            return get_winner_high_card(player_score, dealer_score)
+                # both parties are done playing an we now compare cards to see who won.
+                return get_winner_high_card(player_score, dealer_score)
 
         winner = start_play_after_cards_dealt()
 
         # Announce the winner
         wait_for_user()
-        print('The winner is: ' + winner)
         print('\n' + '=' * 20 + ' GAME FINISHED ' + '=' * 20)
+        print('The winner is: ' + winner)
         print('\nThe cards were:')
         self.player.print_hand()
-        self.dealer.print_hand(False)
+        # self.dealer.print_hand(False)
+        Player.print_hand(self.dealer, name='Dealer')
 
     def play(self):
         # Let the user know they are playing blackjack, do this only once

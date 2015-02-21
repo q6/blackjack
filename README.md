@@ -10,19 +10,13 @@ __Features:__
  - Dealer wins on tie
  - Ace can be high or low
  - Console based text interaction
- 
+ - Simple ASCII art output of cards
+
 
 __TODO:__
 
  - Code clean-up
  - Split cards
- - Simple ASCII art output of cards (see image)
 
 
 _This game is work in progress_
-
-__TODO BUGFIXES:__
-
-- when dealer is busted player should not keep playing
-
-- at the end when printing all the cards, do not hide the first card
