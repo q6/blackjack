@@ -333,8 +333,8 @@ class Play(object):
         if not self.dealer.caclulate_hand_points() == 21:  # dealer didn't win (get 21), player plays
             player_score = self.player.play_turn(self.deck)
 
-        # both parties are done playing an we now compare cards to see who won.
-        winner = get_winner_high_card(player_score, dealer_score)
+            # both parties are done playing an we now compare cards to see who won.
+            winner = get_winner_high_card(player_score, dealer_score)
 
         # Announce the winner
         wait_for_user()
