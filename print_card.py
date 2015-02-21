@@ -1,4 +1,4 @@
-# DEPRECATED. ALL STUFF HAS BEEN MOVED INTO blackjak.py. ABANDON SHIP !
+# DEPRECATED. ALL STUFF HAS BEEN MOVED INTO blackjack.py. ABANDON SHIP !
 
 # from blackjack import Card
 

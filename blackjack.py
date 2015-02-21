@@ -84,6 +84,10 @@ class Player(object):
         self.hand = []
 
     def print_hand(self, name='Player'):
+        """
+        Prints a nice ASCII version of the hand
+        :param name: The when it prints it first says the name of who it's printing, check comments below
+        """
         print('\n{} hand:'.format(name))  # at the end of the game dealer uses this method to print it's non-lipped over cards
         cards = []  # ASCII method needs to know all the cards that want to be printed before it can start printing them
         for card in self.hand:
@@ -92,7 +96,7 @@ class Player(object):
         print(self.ascii_version_of_card(self.hand))
 
     # @staticmethod
-    def ascii_version_of_card(self, cards, start=0, return_string=True, name='Player'):
+    def ascii_version_of_card(self, cards, start=0, return_string=True):
         """
         Instead of a boring text version of the card we render an ASCII image of the card.
         :param cards: One or more card objects
@@ -187,11 +191,11 @@ class Player(object):
             if points > 21:  # BUSTED!
                 print('\n{} is BUSTED!\n'.format(player))
                 break
-            else:  # bot hits under 17 automatically, player can git as long as he is under 21 points
+            else:  # bot hits under 17 automatically, player can go as long as he is under 21 points
                 if auto_hit and points < 17:  # dealer can hit if he's at less than 17 points  # AI DEALER
                     print('\nDealer Hits')
                     card = self.add_card_to_hand(deck.pick_random_card())
-                    print(self.ascii_version_of_card(self.hand, len(self.hand)-1))  # optimize later
+                    print(self.ascii_version_of_card(self.hand, len(self.hand)-1))  # optimize later # meh, it works,idc
                 elif not auto_hit:  # player can hit even if he is at 20, (x) _ (x)  # PLAYER
                     user_choice = input('\nPlayer: Do you want to stay or hit? (s to stay, h to hit)')
                     if user_choice == 's':  # player stays
@@ -200,7 +204,6 @@ class Player(object):
                     else:  # player hits
                         print('\nPlayer hits.')
                         card = self.add_card_to_hand(deck.pick_random_card())
-                        # print(str(card))
                         print(self.ascii_version_of_card([card]))
                 else:  # dealer stays  # AI DEALER
                     print('\n{} stays.'.format(player))
@@ -344,6 +347,7 @@ class Play(object):
                 # both parties are done playing an we now compare cards to see who won.
                 return get_winner_high_card(player_score, dealer_score)
 
+        # after card have been dealt we can already start to see if there is a winner (only dealer can win at start though)
         winner = start_play_after_cards_dealt()
 
         # Announce the winner
@@ -353,12 +357,14 @@ class Play(object):
         print('\nThe cards were:')
         self.player.print_hand()
         # self.dealer.print_hand(False)
+        # noinspection PyCallByClass
         Player.print_hand(self.dealer, name='Dealer')
 
     def play(self):
         # Let the user know they are playing blackjack, do this only once
         print('='*20 + ' Welcome to Blackjack ' + '='*20)
 
+        # allow the user to play many blackjack games
         keep_playing = 'y'
         while keep_playing == 'y':
             self.play_one_game()
