@@ -315,6 +315,7 @@ class Play(object):
             both parties are done taking cards, let see who won  # Hit or stay phase is over
             :return: String, the name of winner we will announce in the next step ('Player' or 'Dealer")
             """
+            # TODO instead of settings winner to string just return string
             if dealer > 21:  # dealer is over
                 winner = 'Player'
             elif player > 21:  # player is over
@@ -322,7 +323,10 @@ class Play(object):
             elif player == dealer:  # tie, dealer wins
                 winner = 'Dealer'
             else:  # who is the winner? highest cards wins
-                winner = max((player, 'Player'), (dealer, 'Dealer'))[1]
+                if player > dealer:  # player has higher card
+                    winner = 'Player'
+                else:  # dealer has the high card
+                    winner = 'Dealer'
             return winner
 
         # we check if the dealer has been dealt an instant winning hand
@@ -339,13 +343,17 @@ class Play(object):
                 dealer_score = self.dealer.play_turn(self.deck, True)  # auto_hit to true because dealer is a bot
             if dealer_score > 21:  # Dealer played and busted himself
                 return 'Player'
-
-            # after the dealer plays we check if he has 21, player looses and doesn't have to play
-            if not self.dealer.calculate_hand_points() == 21:  # dealer didn't win (get 21), player plays
+            # after the dealer played check again if he has 21, if not the user can play
+            if self.dealer.calculate_hand_points() == 21:
+                return 'Dealer'
+            else:  # After playing the dealer does not have a 21
                 player_score = self.player.play_turn(self.deck)
+            # after the dealer plays we check if he has 21, player automatically looses and doesn't have to play
+            # if not self.dealer.calculate_hand_points() == 21:  # dealer didn't win (get 21), player plays
+            #     player_score = self.player.play_turn(self.deck)
 
-                # both parties are done playing an we now compare cards to see who won.
-                return get_winner_high_card(player_score, dealer_score)
+            # both parties are done playing an we now compare cards to see who won.
+            return get_winner_high_card(player_score, dealer_score)  # we shouldn't have to call another functions ideally
 
         # after card have been dealt we can already start to see if there is a winner (only dealer can win at start though)
         winner = start_play_after_cards_dealt()
