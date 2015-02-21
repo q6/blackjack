@@ -21,6 +21,8 @@ __TODO:__
 
 _This game is work in progress_
 
-TODO BUGFIXES:
+__TODO BUGFIXES:__
 
 - when dealer is busted play should not keep playing
+
+- ad the end when printing all the cards, do not hide the first card
