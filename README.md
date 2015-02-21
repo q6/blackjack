@@ -23,6 +23,6 @@ _This game is work in progress_
 
 __TODO BUGFIXES:__
 
-- when dealer is busted play should not keep playing
+- when dealer is busted player should not keep playing
 
-- ad the end when printing all the cards, do not hide the first card
+- at the end when printing all the cards, do not hide the first card
