@@ -1,4 +1,4 @@
-from blackjack import Card
+# from blackjack import Card
 
 def ascii_version_of_card(*cards, return_string=True):
     """

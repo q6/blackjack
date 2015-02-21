@@ -1,4 +1,3 @@
-from print_card import ascii_version_of_card, ascii_version_of_hidden_card
 
 def wait_for_user():  # should this really be global?
     input('\nPress enter to continue.\n')
@@ -86,8 +85,61 @@ class Player(object):
 
     def print_hand(self):
         print('\nPlayers hand:')
+        cards = []  # ASCII method needs to know all the cards that want to be printed before it can start printing them
         for card in self.hand:
-            print(str(card))
+            # print(str(card))  # deprecated by ASCII card print method
+            cards.append(card)
+        print(self.ascii_version_of_card(self.hand))
+
+    # @staticmethod
+    def ascii_version_of_card(self, cards, start=0, return_string=True):
+        """
+        Instead of a boring text version of the card we render an ASCII image of the card.
+        :param cards: One or more card objects
+        :param return_string: By default we return the string version of the card, but the dealer hide the 1st card and we
+        keep it as a list so that the dealer can add a hidden card in front of the list
+        """
+        # we will use this to prints the appropriate icons for each card
+        suits_name = 'Spades', 'Diamonds', 'Hearts', 'Clubs'
+        suits_symbols = '♠', '♦', '♥', '♣'
+
+        # create an empty list of list, each sublist is a line
+        lines = [[] for i in range(9)]
+
+        # print(self.hand)  # DEBUG
+        # print(type(self.hand))  # DEBUG
+        for index, card in enumerate(cards[start:]):
+            # "King" should be "K" and "10" should still be "10"
+            if card.rank == '10':  # ten is the only one who's rank is 2 char long
+                rank = card.rank
+                space = ''  # if we write "10" on the card that line will be 1 char to long
+            else:
+                rank = card.rank[0]  # some have a rank of 'King' this changes that to a simple 'K' ("King" doesn't fit)
+                space = ' '  # no "10", we use a blank space to will the void
+            # get the cards suit in two steps
+            suit = suits_name.index(card.suit)
+            suit = suits_symbols[suit]
+
+            # add the individual card on a line by line basis
+            lines[0].append('┌─────────┐')
+            lines[1].append('│{}{}       │'.format(rank, space))  # use two {} one for char, one for space or char
+            lines[2].append('│         │')
+            lines[3].append('│         │')
+            lines[4].append('│    {}    │'.format(suit))
+            lines[5].append('│         │')
+            lines[6].append('│         │')
+            lines[7].append('│       {}{}│'.format(space, rank))
+            lines[8].append('└─────────┘')
+
+        result = []
+        for index, line in enumerate(lines):
+            result.append(''.join(lines[index]))
+
+        # hidden cards do not use string
+        if return_string:
+            return '\n'.join(result)
+        else:
+            return result
 
     def how_many_aces_in_hand(self):
         total = 0
@@ -139,7 +191,7 @@ class Player(object):
                 if auto_hit and points < 17:  # dealer can hit if he's at less than 17 points  # AI DEALER
                     print('\nDealer Hits')
                     card = self.add_card_to_hand(deck.pick_random_card())
-                    print(str(card))
+                    print(self.ascii_version_of_card(self.hand, len(self.hand)-1))  # optimize later
                 elif not auto_hit:  # player can hit even if he is at 20, (x) _ (x)  # PLAYER
                     user_choice = input('\nPlayer: Do you want to stay or hit? (s to stay, h to hit)')
                     if user_choice == 's':  # player stays
@@ -148,7 +200,8 @@ class Player(object):
                     else:  # player hits
                         print('\nPlayer hits.')
                         card = self.add_card_to_hand(deck.pick_random_card())
-                        print(str(card))
+                        # print(str(card))
+                        print(self.ascii_version_of_card([card]))
                 else:  # dealer stays  # AI DEALER
                     print('\n{} stays.'.format(player))
                     break
@@ -160,12 +213,49 @@ class Dealer(Player):
 
     def print_hand(self, hide_first_card=True):
         print('Dealers hand:')
-        if hide_first_card:
-            print('  UNKNOWN')
-        else:  # show 1st card
-            print(str(self.hand[0]))
-        for card in self.hand[1:]:  # set back to [1:] to hide 1st card
-            print(str(card))
+        cards = []
+        for card in self.hand:
+            cards.append(card)
+        print(self.ascii_version_of_hidden_card(self.hand))
+        # deprecated by print ascii method
+        # if hide_first_card:
+        #     print('  UNKNOWN')
+        # else:  # show 1st card
+        #     print(str(self.hand[0]))
+        # for card in self.hand[1:]:  # set back to [1:] to hide 1st card
+        #     print(str(card))
+
+    def ascii_version_of_hidden_card(self, cards):
+        """
+        Essentially the dealers method of print ascii cards. This method hides the first card, shows it flipped over
+        :param cards: A list of card objects, the first will be hidden
+        :return: A string, the nice ascii version of cards
+        """
+        # a flipper over card. # This is a list of lists instead of a list of string becuase appending to a list is better then adding a string
+        lines = [
+        ['┌─────────┐'],
+        ['│░░░░░░░░░│'],
+        ['│░░░░░░░░░│'],
+        ['│░░░░░░░░░│'],
+        ['│░░░░░░░░░│'],
+        ['│░░░░░░░░░│'],
+        ['│░░░░░░░░░│'],
+        ['│░░░░░░░░░│'],
+        ['└─────────┘']
+        ]
+
+
+        # store the non-flipped over card after the one that is flipped over
+        cards_except_first = self.ascii_version_of_card(self.hand, start=1, return_string=False)
+        for index, line in enumerate(cards_except_first):
+            lines[index].append(line)
+
+        # make each line into a single list
+        for index, line in enumerate(lines):
+            lines[index] = ''.join(line)
+
+        # convert the list into a single string
+        return '\n'.join(lines)
 
     def did_dealer_win(self):  # maybe I don't need this function
         return self.caclulate_hand_points() == 21
@@ -272,5 +362,5 @@ class Play(object):
             keep_playing = input('Do you want to keep playing? (enter y for yes no for no)')
 
 
-# p = Play()
-# p.play()
+p = Play()
+p.play()

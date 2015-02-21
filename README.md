@@ -20,3 +20,7 @@ __TODO:__
 
 
 _This game is work in progress_
+
+TODO BUGFIXES:
+
+- when dealer is busted play should not keep playing
