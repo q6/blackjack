@@ -195,7 +195,7 @@ class Player(object):
                 if auto_hit and points < 17:  # dealer can hit if he's at less than 17 points  # AI DEALER
                     print('\nDealer Hits')
                     card = self.add_card_to_hand(deck.pick_random_card())
-                    print(self.ascii_version_of_card(self.hand, len(self.hand)-1))  # optimize later # meh, it works,idc
+                    print(self.ascii_version_of_card([card]))
                 elif not auto_hit:  # player can hit even if he is at 20, (x) _ (x)  # PLAYER
                     user_choice = input('\nPlayer: Do you want to stay or hit? (s to stay, h to hit)')
                     if user_choice == 's':  # player stays
