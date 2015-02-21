@@ -283,7 +283,7 @@ class Play(object):
         :return: points in the hand
         """
         player.print_hand()
-        hit_or_stay = input('Do you want to hit or stay? (enter (enter y to hit n to stay)')
+        hit_or_stay = input('Do you want to hit or stay? (enter (enter y to hit n to stay)\n')
         if hit_or_stay == 'y':
             player.add_card_to_hand(self.deck.pick_random_card())
         # calculate the score, no need to calculate before because one cannot lose in the 1st two cards
@@ -351,7 +351,7 @@ class Play(object):
         keep_playing = 'y'
         while keep_playing == 'y':
             self.play_one_game()
-            keep_playing = input('Do you want to keep playing? (enter y for yes no for no)')
+            keep_playing = input('Do you want to keep playing? (enter y for yes no for no)\n')
 
 
 p = Play()
