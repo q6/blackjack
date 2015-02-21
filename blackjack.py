@@ -152,7 +152,7 @@ class Player(object):
                 total += 1
         return total
 
-    def caclulate_hand_points(self):
+    def calculate_hand_points(self):
         """
         calculate the points of the current hand
         :return: True if user can keep playing, False otherwise
@@ -187,7 +187,7 @@ class Player(object):
         # self.print_hand()  # we do not need to show the hand after the user has just seen it
         while True:  # danger zone
             wait_for_user()  # add small delay
-            points = self.caclulate_hand_points()
+            points = self.calculate_hand_points()
             if points > 21:  # BUSTED!
                 print('\n{} is BUSTED!\n'.format(player))
                 break
@@ -209,7 +209,7 @@ class Player(object):
                     print('\n{} stays.'.format(player))
                     break
 
-        return self.caclulate_hand_points()  # return the points to be able to see who wins
+        return self.calculate_hand_points()  # return the points to be able to see who wins
 
 
 class Dealer(Player):
@@ -227,7 +227,7 @@ class Dealer(Player):
         :param cards: A list of card objects, the first will be hidden
         :return: A string, the nice ascii version of cards
         """
-        # a flipper over card. # This is a list of lists instead of a list of string becuase appending to a list is better then adding a string
+        # a flipper over card. # This is a list of lists instead of a list of string because appending to a list is better then adding a string
         lines = [
         ['┌─────────┐'],
         ['│░░░░░░░░░│'],
@@ -290,7 +290,7 @@ class Play(object):
         if hit_or_stay == 'y':
             player.add_card_to_hand(self.deck.pick_random_card())
         # calculate the score, no need to calculate before because one cannot lose in the 1st two cards
-        return player.caclulate_hand_points()
+        return player.calculate_hand_points()
 
     def play_one_game(self):
 
@@ -333,7 +333,7 @@ class Play(object):
             :return: String, Who won the game.
             The function is invoked after the 2 cards have been dealt
             """
-            if self.dealer.caclulate_hand_points() == 21:  # instant win for dealer
+            if self.dealer.calculate_hand_points() == 21:  # instant win for dealer
                 return 'Dealer'
             else:  # dealer did not instant win, DEALER plays
                 dealer_score = self.dealer.play_turn(self.deck, True)  # auto_hit to true because dealer is a bot
@@ -341,7 +341,7 @@ class Play(object):
                 return 'Player'
 
             # after the dealer plays we check if he has 21, player looses and doesn't have to play
-            if not self.dealer.caclulate_hand_points() == 21:  # dealer didn't win (get 21), player plays
+            if not self.dealer.calculate_hand_points() == 21:  # dealer didn't win (get 21), player plays
                 player_score = self.player.play_turn(self.deck)
 
                 # both parties are done playing an we now compare cards to see who won.
