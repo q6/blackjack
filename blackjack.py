@@ -95,8 +95,8 @@ class Player(object):
             cards.append(card)
         print(self.ascii_version_of_card(self.hand))
 
-    @staticmethod
-    def ascii_version_of_card(cards, start=0, return_string=True):
+    # @staticmethod
+    def ascii_version_of_card(self, cards, start=0, return_string=True):
         """
         Instead of a boring text version of the card we render an ASCII image of the card.
         :param cards: One or more card objects
@@ -108,7 +108,6 @@ class Player(object):
         suits_symbols = '♠', '♦', '♥', '♣'
 
         # create an empty list of list, each sublist is a line
-
         lines = [[] for i in range(9)]
 
         # print(self.hand)  # DEBUG
@@ -153,7 +152,7 @@ class Player(object):
                 total += 1
         return total
 
-    def calculate_hand_points(self):
+    def caclulate_hand_points(self):
         """
         calculate the points of the current hand
         :return: True if user can keep playing, False otherwise
@@ -188,14 +187,14 @@ class Player(object):
         # self.print_hand()  # we do not need to show the hand after the user has just seen it
         while True:  # danger zone
             wait_for_user()  # add small delay
-            points = self.calculate_hand_points()
+            points = self.caclulate_hand_points()
             if points > 21:  # BUSTED!
                 print('\n{} is BUSTED!\n'.format(player))
                 break
             else:  # bot hits under 17 automatically, player can go as long as he is under 21 points
                 if auto_hit and points < 17:  # dealer can hit if he's at less than 17 points  # AI DEALER
                     print('\nDealer Hits')
-                    # card = self.add_card_to_hand(deck.pick_random_card())  # do we need this?
+                    card = self.add_card_to_hand(deck.pick_random_card())
                     print(self.ascii_version_of_card(self.hand, len(self.hand)-1))  # optimize later # meh, it works,idc
                 elif not auto_hit:  # player can hit even if he is at 20, (x) _ (x)  # PLAYER
                     user_choice = input('\nPlayer: Do you want to stay or hit? (s to stay, h to hit)')
@@ -210,7 +209,7 @@ class Player(object):
                     print('\n{} stays.'.format(player))
                     break
 
-        return self.calculate_hand_points()  # return the points to be able to see who wins
+        return self.caclulate_hand_points()  # return the points to be able to see who wins
 
 
 class Dealer(Player):
@@ -220,14 +219,15 @@ class Dealer(Player):
         cards = []
         for card in self.hand:
             cards.append(card)
-        print(self.ascii_version_of_hidden_card())
+        print(self.ascii_version_of_hidden_card(self.hand))
 
-    def ascii_version_of_hidden_card(self):
+    def ascii_version_of_hidden_card(self, cards):
         """
         Essentially the dealers method of print ascii cards. This method hides the first card, shows it flipped over
+        :param cards: A list of card objects, the first will be hidden
         :return: A string, the nice ascii version of cards
         """
-        # a flipper over card. # This is a list of lists instead of a list of string because appending to a list is better then adding a string
+        # a flipper over card. # This is a list of lists instead of a list of string becuase appending to a list is better then adding a string
         lines = [
         ['┌─────────┐'],
         ['│░░░░░░░░░│'],
@@ -290,7 +290,7 @@ class Play(object):
         if hit_or_stay == 'y':
             player.add_card_to_hand(self.deck.pick_random_card())
         # calculate the score, no need to calculate before because one cannot lose in the 1st two cards
-        return player.calculate_hand_points()
+        return player.caclulate_hand_points()
 
     def play_one_game(self):
 
@@ -333,7 +333,7 @@ class Play(object):
             :return: String, Who won the game.
             The function is invoked after the 2 cards have been dealt
             """
-            if self.dealer.calculate_hand_points() == 21:  # instant win for dealer
+            if self.dealer.caclulate_hand_points() == 21:  # instant win for dealer
                 return 'Dealer'
             else:  # dealer did not instant win, DEALER plays
                 dealer_score = self.dealer.play_turn(self.deck, True)  # auto_hit to true because dealer is a bot
@@ -341,7 +341,7 @@ class Play(object):
                 return 'Player'
 
             # after the dealer plays we check if he has 21, player looses and doesn't have to play
-            if not self.dealer.calculate_hand_points() == 21:  # dealer didn't win (get 21), player plays
+            if not self.dealer.caclulate_hand_points() == 21:  # dealer didn't win (get 21), player plays
                 player_score = self.player.play_turn(self.deck)
 
                 # both parties are done playing an we now compare cards to see who won.
