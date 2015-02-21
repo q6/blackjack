@@ -1,3 +1,5 @@
+from print_card import ascii_version_of_card, ascii_version_of_hidden_card
+
 def wait_for_user():  # should this really be global?
     input('\nPress enter to continue.\n')
 
