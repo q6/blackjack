@@ -96,7 +96,6 @@ class Player(object):
         print(self.ascii_version_of_card(self.hand))
 
     # @staticmethod
-    # noinspection PyUnusedLocal
     def ascii_version_of_card(self, cards, start=0, return_string=True):
         """
         Instead of a boring text version of the card we render an ASCII image of the card.
@@ -195,7 +194,7 @@ class Player(object):
             else:  # bot hits under 17 automatically, player can go as long as he is under 21 points
                 if auto_hit and points < 17:  # dealer can hit if he's at less than 17 points  # AI DEALER
                     print('\nDealer Hits')
-                    # card = self.add_card_to_hand(deck.pick_random_card())
+                    card = self.add_card_to_hand(deck.pick_random_card())
                     print(self.ascii_version_of_card(self.hand, len(self.hand)-1))  # optimize later # meh, it works,idc
                 elif not auto_hit:  # player can hit even if he is at 20, (x) _ (x)  # PLAYER
                     user_choice = input('\nPlayer: Do you want to stay or hit? (s to stay, h to hit)')
