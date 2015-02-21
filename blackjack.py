@@ -1,4 +1,4 @@
-# static method test #2
+
 def wait_for_user():  # should this really be global?
     input('\nPress enter to continue.\n')
 
@@ -110,8 +110,6 @@ class Player(object):
         # create an empty list of list, each sublist is a line
         lines = [[] for i in range(9)]
 
-        # print(self.hand)  # DEBUG
-        # print(type(self.hand))  # DEBUG
         for index, card in enumerate(cards[start:]):
             # "King" should be "K" and "10" should still be "10"
             if card.rank == '10':  # ten is the only one who's rank is 2 char long
@@ -346,9 +344,6 @@ class Play(object):
                 return 'Dealer'
             else:  # After playing the dealer does not have a 21
                 player_score = self.player.play_turn(self.deck)
-            # after the dealer plays we check if he has 21, player automatically looses and doesn't have to play
-            # if not self.dealer.calculate_hand_points() == 21:  # dealer didn't win (get 21), player plays
-            #     player_score = self.player.play_turn(self.deck)
 
             # both parties are done playing an we now compare cards to see who won.
             return get_winner_high_card(player_score, dealer_score)  # we shouldn't have to call another functions ideally
