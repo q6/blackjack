@@ -195,7 +195,11 @@ class Player(object):
                     card = self.add_card_to_hand(deck.pick_random_card())
                     print(self.ascii_version_of_card([card]))
                 elif not auto_hit:  # player can hit even if he is at 20, (x) _ (x)  # PLAYER
-                    user_choice = input('\nPlayer: Do you want to stay or hit? (s to stay, h to hit)')
+                    user_choice = ' '  # we initialize the variable as something that's not 's' or 'h'
+                    while user_choice not in 'sh':  # user doesn't want to stay or hit
+                        user_choice = input('\nPlayer: Do you want to stay or hit? (s to stay, h to hit, c to view cards)')
+                        print('\nThese are your cards.\n')  # TODO too many \n?
+                        print(self.ascii_version_of_card(self.hand))  # print the user all cards
                     if user_choice == 's':  # player stays
                         print('\n{} stays.'.format(player))
                         break
