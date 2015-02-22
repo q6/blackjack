@@ -257,6 +257,7 @@ class Play(object):
         self.deck = Deck()
         self.dealer = Dealer()
         self.player = Player()
+        self.round = 1  # keep track of how many games the user has played
 
         # reset hand so that the user can keep playing
         self.player.clear_hand()
@@ -290,6 +291,10 @@ class Play(object):
         return player.calculate_hand_points()
 
     def play_one_game(self):
+
+        # let them know a new game as started
+        print('{0}       ROUND {1}        {0}'.format('*'*20, self.round))
+        self.round += 1
 
         # if the user wants to play multiple games we have to create a new deck and clear the hands
         self.deck = Deck()
@@ -366,7 +371,7 @@ class Play(object):
 
         # allow the user to play many blackjack games
         keep_playing = 'y'
-        while keep_playing == 'y':
+        while keep_playing != 'n':
             self.play_one_game()
             keep_playing = input('Do you want to keep playing? (enter y for yes no for no)\n')
 
