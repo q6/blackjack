@@ -274,20 +274,6 @@ class Play(object):
         card = player.add_card_to_hand(self.deck.pick_random_card())
         return card
 
-    def turn(self, player):  # WIP/ might not need/use
-        """
-        Method only used for player, not AI dealer
-        1. show the user their hand
-        2. ask if user wants to hit or stay
-        3. if they hit calculate the value again
-        :return: points in the hand
-        """
-        player.print_hand()
-        hit_or_stay = input('Do you want to hit or stay? (enter (enter y to hit n to stay)\n')
-        if hit_or_stay == 'y':
-            player.add_card_to_hand(self.deck.pick_random_card())
-        # calculate the score, no need to calculate before because one cannot lose in the 1st two cards
-        return player.calculate_hand_points()
 
     def play_one_game(self):
 
