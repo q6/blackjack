@@ -217,12 +217,11 @@ class Dealer(Player):
         cards = []
         for card in self.hand:
             cards.append(card)
-        print(self.ascii_version_of_hidden_card(self.hand))
+        print(self.ascii_version_of_hidden_card())
 
-    def ascii_version_of_hidden_card(self, cards):
+    def ascii_version_of_hidden_card(self):
         """
         Essentially the dealers method of print ascii cards. This method hides the first card, shows it flipped over
-        :param cards: A list of card objects, the first will be hidden
         :return: A string, the nice ascii version of cards
         """
         # a flipper over card. # This is a list of lists instead of a list of string because appending to a list is better then adding a string
