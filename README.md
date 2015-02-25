@@ -12,11 +12,4 @@ __Features:__
  - Console based text interaction
  - Simple ASCII art output of cards
 
-
-__TODO:__
-
- - Code clean-up
- - Split cards
-
-
-_This game is work in progress_
+_Game is finished_
